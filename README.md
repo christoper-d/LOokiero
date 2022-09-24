@@ -1,2 +1,8 @@
 # Pagina-web
-tarea de senati 
+tarea grupal de senati
+-segundo ciclo
+    -integrantes:
+        - chris
+        - Mari
+        - Ronald
+
