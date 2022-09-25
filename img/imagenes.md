@@ -1,5 +1,5 @@
-img
+* img
     - Categorias :
-        - Logos
-        - Productos
-        - extras
+        ° Logos
+        ° Productos
+        ° extras
