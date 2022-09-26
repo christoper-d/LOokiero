@@ -3,4 +3,6 @@
     https://excalidraw.com/#json=ZNUDlUiNyRN9RDt5HAN6-,FlqdjqnG2EKpI3iPDKBRRA
 |¬Logo design:
     https://www.canva.com/design/DAFNRXfi1RQ/uzR42LPdX9vP4iQHUN6HfA/edit?utm_content=DAFNRXfi1RQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
-    
+|¬Github repositori
+    https://github.com/christoper-d/Pagina-web.git
+|¬
