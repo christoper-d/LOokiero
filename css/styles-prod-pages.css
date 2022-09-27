@@ -1,0 +1,33 @@
+* {
+    margin: 3;
+    padding: 2;
+    box-sizing: border-box;
+}
+
+main {
+    background-color: #1b1b1b;
+    font-family: 'Open Sans', sans-serif;
+    color: aliceblue;
+}
+
+
+/* ----B*/
+
+a:link,
+a:visited {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+a:hover {
+    color: rgb(0, 119, 255);
+    text-decoration: underline;
+}
+
+
+/*----------*/
+
+
+/*-------------------------*/

@@ -1,15 +1,104 @@
 * {
+    margin: 3;
+    padding: 2;
+    box-sizing: border-box;
+}
+
+main {
     background-color: #1b1b1b;
+    font-family: 'Open Sans', sans-serif;
     color: aliceblue;
 }
 
-img {
-    max-width: 100%;
-    max-height: 100%;
+
+/* ----Barra de navegacion*/
+
+nav {
+    background: gray;
+    max-width: auto;
+    width: 98%;
+    margin: auto;
 }
 
-.logo {
-    align-items: flex-end;
-    height: 100px;
-    width: 100px;
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+/* ----Contenedor de logo*/
+
+.div-logo {
+    background: violet;
+    display: flex;
+    flex-direction: column;
+    width: 18%;
+}
+
+.img-logo {
+    width: 50px;
+    height: 50px;
+}
+
+
+/* ----Contenedor de opciones*/
+
+.div-options {
+    background: transparent;
+    width: 82%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.div-options .options {
+    padding: 2px;
+    display: block;
+    width: 90%;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    background: #E84C3D;
+    text-decoration: none;
+    color: #fff;
+}
+
+a:link,
+a:visited {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+a:hover {
+    color: rgb(0, 119, 255);
+    text-decoration: underline;
+}
+
+
+/*----------*/
+
+
+/*-------------------------*/
+
+
+/* ---- cuerpo*/
+
+
+/*-------------------------*/
+
+
+/* ----footer*/
+
+.cuerpo {
+    color: #E84C3D;
+    width: 98%;
+    margin: auto
+}
+
+footer {
+    display: flex;
+    background: gray;
+    max-width: auto;
+    width: 98%;
+    margin: auto;
 }
