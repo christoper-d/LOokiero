@@ -1,6 +1,6 @@
 * {
     margin: 0px;
-    padding: ;
+    padding: 0px;
 }
 
 body {
@@ -17,5 +17,13 @@ body>div {
 
 header {
     width: 100%;
-    text-align: center;
+}
+
+header>img {
+    width: 100px;
+    height: 100px;
+}
+
+header>div {
+    text-align: right;
 }
