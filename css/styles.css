@@ -121,9 +121,6 @@ main {
 .main-header {
     width: 100%;
     height: 100vh;
-    background: url(../img/pet.png);
-    background-size: cover;
-    background-position: center;
     position: relative;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -163,7 +160,7 @@ section {
     margin-bottom: 3rem;
 }
 
-.btn {
+.btn1 {
     padding: 5px 5%;
     color: #fff;
     background: #ca7c62;
@@ -174,7 +171,7 @@ section {
     transition: all .40s ease;
 }
 
-.btn:hover {
+.btn1:hover {
     background: transparent;
     border: 2px solid #3e1908;
     color: #3e1908;
