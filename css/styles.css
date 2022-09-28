@@ -12,18 +12,10 @@ body>div {
     background-color: #fff;
     border-radius: 10px;
     width: 98%;
-    margin: 20px auto;
+    margin: 10px 10px 10px 10px;
 }
 
 header {
     width: 100%;
-}
-
-header>img {
-    width: 100px;
-    height: 100px;
-}
-
-header>div {
-    text-align: right;
+    background-color: #A7D2CB;
 }
