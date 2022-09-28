@@ -1,106 +1,21 @@
 * {
-    margin: 3;
-    padding: 2;
-    box-sizing: border-box;
+    margin: 0px;
+    padding: ;
 }
 
-main {
-    background-color: #1b1b1b;
-    font-family: 'Open Sans', sans-serif;
-    color: aliceblue;
+body {
+    background-color: #874C62;
+    font-family: sans-serif;
 }
 
-
-/* ----Barra de navegacion*/
-
-nav {
-    background: gray;
-    max-width: auto;
+body>div {
+    background-color: #fff;
+    border-radius: 10px;
     width: 98%;
-    margin: auto;
+    margin: 20px auto;
 }
 
-.nav {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-
-/* ----Contenedor de logo*/
-
-.div-logo {
-    background: violet;
-    display: flex;
-    flex-direction: column;
-    width: 11%;
-    align-items: center;
-}
-
-.img-logo {
-    /*tamaño de imagen*/
-    width: 200px;
-    height: 200px;
-}
-
-
-/* ----Contenedor de opciones*/
-
-.div-options {
-    background: transparent;
-    width: 82%;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.div-options .options {
-    padding: 2px;
-    display: block;
-    width: 90%;
-    padding: 15px 0;
-    margin-bottom: 20px;
-    background: #E84C3D;
-    text-decoration: none;
-    color: #fff;
-}
-
-a:link,
-a:visited {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-a:hover {
-    color: rgb(0, 119, 255);
-    text-decoration: underline;
-}
-
-
-/*----------*/
-
-
-/*-------------------------*/
-
-
-/* ---- cuerpo*/
-
-
-/*-------------------------*/
-
-
-/* ----footer*/
-
-.cuerpo {
-    color: #E84C3D;
-    width: 98%;
-    margin: auto
-}
-
-footer {
-    display: flex;
-    background: gray;
-    max-width: auto;
-    width: 98%;
-    margin: auto;
+header {
+    width: 100%;
+    text-align: center;
 }
