@@ -56,6 +56,6 @@ Si tienes preguntas, sugerencias o simplemente deseas ponerte en contacto con el
 
 
 
-
-Agradezco a Ronald roque por ser parte del proyecto principal.
+## Colaboradores
+- Agradezco a Ronald roque por ser parte del proyecto principal.
 
