@@ -1,54 +1,59 @@
-# Astro Starter Kit: Basics
+# Bienvenido a "LOoKiero!"
 
-```
-npm create astro@latest -- --template basics
-```
+![Lo Quiero Logo](https://raw.githubusercontent.com/christoper-d/Pagina-web/main/Images/logo.png)
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## Descripción
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+¡Hola! Gracias por visitar el repositorio de **"LOoKiero!"**, un emocionante proyecto estudiantil dejado como tarea. Nuestra misión es crear una plataforma web de compra innovadora utilizando tecnologías web modernas.
 
-![basics](https://user-images.githubusercontent.com/4677417/186188965-73453154-fdec-4d6b-9c34-cb35c248ae5b.png)
+## Visión General del Proyecto
 
-## 🚀 Project Structure
+**"LOoKiero!"** es un proyecto estudiantil que tiene como objetivo enseñar, a través de código puro (HTML y CSS), la creación de una tienda virtual interactiva. Aunque esta versión actual del proyecto utiliza código puro, tenemos planes para mejorar la experiencia y el rendimiento de la plataforma implementando **Astro**, una herramienta moderna para el desarrollo web.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Funcionalidades Clave
 
-```
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+En **"LOoKiero!"**, nos enfocamos en proporcionar una experiencia de usuario excepcional mediante las siguientes funcionalidades clave:
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+- **Interfaz Intuitiva:** Interfaz de usuario sencilla y elegante que permite una navegación fluida y una experiencia agradable para los visitantes.
+- **Catálogo de Productos:** Los usuarios podrán explorar una amplia gama de productos y categorías, obteniendo información detallada sobre cada artículo.
+  
+#### Funciones por implementar
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- **Personalización:** Implementaremos una funcionalidad de personalización para adaptar las recomendaciones de productos según las preferencias de cada usuario.
+- **Carrito de Compras:** Los usuarios podrán agregar productos al carrito y gestionar su selección antes de proceder al proceso de compra.
+- **Sistema de Registro:** Implementaremos un sistema de registro para que los usuarios puedan crear cuentas y acceder a sus perfiles.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Capturas de Pantalla
 
-## 🧞 Commands
+Aquí puedes ver una vista previa de algunas secciones de la página web:
 
-All commands are run from the root of the project, from a terminal:
+![Captura de Pantalla 1](https://example.com/screenshot1.png)
+*Descripción de la captura de pantalla 1.*
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:3000`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Colores
 
-## 👀 Want to learn more?
+El proyecto **"LOoKiero!"** ha seleccionado una paleta de colores moderna y vibrante para crear una apariencia atractiva y llamativa:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- **Azul:** #007BFF
+- **Amarillo:** #FFC107
+- **Blanco:** #FFFFFF
+
+Estos colores se combinan para reflejar la energía y la frescura que queremos transmitir a nuestros usuarios.
+
+## Uso de Astro
+
+Actualmente, el proyecto **"LOoKiero!"** está desarrollado utilizando código puro (HTML y CSS) como parte de la etapa de aprendizaje. Sin embargo, nuestro plan a futuro es mejorar la plataforma migrando a **Astro**, una herramienta moderna que nos permitirá optimizar la velocidad de carga y mejorar la experiencia del usuario.
+
+## Contribuir
+
+¡Agradecemos el interés en colaborar con el proyecto! Si deseas formar parte de esta iniciativa y contribuir al desarrollo de **"Lo Quiero"**, por favor crea una rama del proyecto y estaremos encantados de trabajar juntos para mejorar la plataforma.
+
+## Contribuciones Destacadas
+
+- Ronald Roque: Parte del grupo principal del proyecto.
+
+---
+
+¡Gracias por tu interés en **"LOoKiero!"** y esperamos contar con tu apoyo!
+
+*Equipo **"LOoKiero!"***
