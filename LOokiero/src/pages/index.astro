@@ -1,0 +1,33 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+import Navbar from "../components/Navbar.astro";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css'
+
+---
+
+<Layout title="Welcome to LOokiero!">
+  <Navbar/>
+  <main class="container-md p-3">
+    <h1>Welcome to <span class="badge text-bg-dark">LOokiero!</span></h1>
+    <h1>Tienda de regalos <br /> <span> y</span> accesorios</h1>
+    <p>"No dejes de hacer felices a los que quieres"</p>
+    <div class="btn-prodc">
+      <a href="#new" class="btn1">Ver novedades</a>
+    </div>
+    <!-- <ul role="list" class="link-card-grid">
+      <Card
+        href="https://docs.astro.build/"
+        title="Documentation"
+        body="Learn how Astro works and explore the official API docs."
+      />
+    </ul> -->
+  </main>
+</Layout>
+
+<style>
+
+</style>
+
+<script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
