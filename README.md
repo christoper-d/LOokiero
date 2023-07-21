@@ -48,13 +48,11 @@ Actualmente, el proyecto **"LOoKiero!"** está desarrollado utilizando código p
 
 ¡Agradecemos el interés en colaborar con el proyecto! Si deseas formar parte de esta iniciativa y contribuir al desarrollo de **"Lo Quiero"**, por favor crea una rama del proyecto y estaremos encantados de trabajar juntos para mejorar la plataforma.
 
-## Colaboradores
+## Contribuciones Destacadas
 
-- Agradezco a Ronald roque por ser parte del proyecto principal.
+- Ronald Roque: Parte del grupo principal del proyecto.
 
-## Contacto
-
-Si tienes preguntas, sugerencias o simplemente deseas ponerte en contacto con el equipo de **"LOoKiero!"**, no dudes en enviarnos un correo electrónico a contacto@LOoKiero!.com.
+---
 
 ¡Gracias por tu interés en **"LOoKiero!"** y esperamos contar con tu apoyo!
 
