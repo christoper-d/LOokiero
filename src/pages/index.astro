@@ -2,8 +2,10 @@
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 import Navbar from "../components/Navbar.astro";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.css'
+import { Breadcrumb } from 'astro-bootstrap';
 ---
+
 
 <Layout title="Welcome to LOokiero!">
   <Navbar/>
@@ -23,5 +25,3 @@ import 'bootstrap/dist/css/bootstrap.min.css';
     </ul>
   </main>
 </Layout>
-
-<script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
