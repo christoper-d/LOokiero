@@ -1,0 +1,909 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { getAllProducts, getRelatedProducts, type Product } from '../../data/products';
+import { getPath } from '../../utils/paths';
+
+export async function getStaticPaths() {
+  const products = getAllProducts();
+  return products.map((product) => ({
+    params: { id: product.id },
+    props: { product },
+  }));
+}
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const relatedProducts = getRelatedProducts(product.id, 4);
+
+const categoryPath = product.categorySlug === 'temporada' ? getPath('/') : getPath(`/${product.categorySlug}`);
+const resolvedImages = product.images.map((img) => getPath(img));
+const hasMultipleImages = resolvedImages.length > 1;
+
+// Mensaje para WhatsApp
+const waText = encodeURIComponent(
+  `👋 ¡Hola LOokiero! Me interesa comprar el producto: *${product.title}* (${product.price}). ¿Tienen disponibilidad para envío?`
+);
+const waUrl = `https://wa.me/51927123997?text=${waText}`;
+---
+
+<Layout title={`${product.title} | LOokiero!`} description={product.description}>
+  <!-- Migas de pan jerárquicas -->
+  <Breadcrumbs
+    items={[
+      { label: product.category, href: categoryPath },
+      { label: product.subcategory },
+      { label: product.title }
+    ]}
+  />
+
+  <div class="site-container product-detail-container">
+    <div class="product-detail-grid">
+      
+      <!-- ==========================================
+           GALERÍA DE FOTOS INTERACTIVA
+           ========================================== -->
+      <div class="gallery-column">
+        <div class="main-image-viewport">
+          <img
+            id="main-photo"
+            src={resolvedImages[0]}
+            alt={product.title}
+            class="main-photo"
+            loading="eager"
+          />
+
+          {product.promo && <span class="detail-promo-badge">-{product.promo} OFF</span>}
+
+          {hasMultipleImages && (
+            <>
+              <div class="photo-counter-badge">
+                <span id="current-photo-num">1</span> / <span>{resolvedImages.length}</span>
+              </div>
+
+              <button class="gallery-arrow prev" id="arrow-prev" aria-label="Foto anterior">
+                <i class='bx bx-chevron-left'></i>
+              </button>
+              <button class="gallery-arrow next" id="arrow-next" aria-label="Foto siguiente">
+                <i class='bx bx-chevron-right'></i>
+              </button>
+            </>
+          )}
+        </div>
+
+        <!-- Tira de Miniaturas (si hay más de una foto) -->
+        {hasMultipleImages && (
+          <div class="thumbnails-container">
+            <div class="thumbnails-track" id="thumbs-track">
+              {resolvedImages.map((imgSrc, index) => (
+                <button
+                  type="button"
+                  class:list={['thumb-btn', { active: index === 0 }]}
+                  data-index={index}
+                  data-src={imgSrc}
+                  aria-label={`Ver foto ${index + 1}`}
+                >
+                  <img src={imgSrc} alt="" loading="lazy" />
+                </button>
+              ))}
+            </div>
+            <p class="gallery-hint">
+              <i class='bx bx-pointer'></i> Haz clic en las miniaturas o usa las flechas para explorar todas las fotos
+            </p>
+          </div>
+        )}
+      </div>
+
+      <!-- ==========================================
+           INFORMACIÓN Y COMPRA DEL PRODUCTO
+           ========================================== -->
+      <div class="info-column">
+        <div class="category-meta-row">
+          <span class="category-tag-pill">
+            <i class='bx bx-category'></i> {product.category} &bull; {product.subcategory}
+          </span>
+          <div class="rating-box">
+            <span class="stars">{product.rating}</span>
+            <span class="reviews-count">(Opiniones verificadas)</span>
+          </div>
+        </div>
+
+        <h1 class="detail-title">{product.title}</h1>
+
+        <div class="price-box">
+          <span class="current-price">{product.price}</span>
+          {product.originalPrice && (
+            <span class="original-price">{product.originalPrice}</span>
+          )}
+          <span class="stock-pill">
+            <i class='bx bx-check-circle'></i> En stock listo para envío
+          </span>
+        </div>
+
+        <p class="detail-description">{product.description}</p>
+
+        <!-- Lista de Características Destacadas -->
+        {product.features && product.features.length > 0 && (
+          <div class="features-card">
+            <h4 class="features-title"><i class='bx bx-badge-check'></i> Características destacadas:</h4>
+            <ul class="features-list">
+              {product.features.map((feat) => (
+                <li>
+                  <i class='bx bx-check'></i>
+                  <span>{feat}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <!-- Selector de Cantidad y Botones de Compra -->
+        <div class="purchase-actions-box">
+          <div class="qty-and-cart-row">
+            <div class="detail-qty-picker">
+              <button type="button" class="qty-picker-btn" id="qty-minus" aria-label="Disminuir cantidad">
+                <i class='bx bx-minus'></i>
+              </button>
+              <input type="number" id="qty-input" value="1" min="1" max="99" readonly aria-label="Cantidad de productos" />
+              <button type="button" class="qty-picker-btn" id="qty-plus" aria-label="Aumentar cantidad">
+                <i class='bx bx-plus'></i>
+              </button>
+            </div>
+
+            <button
+              type="button"
+              class="btn-add-detail"
+              id="btn-add-to-cart"
+              data-title={product.title}
+              data-price={product.price}
+              data-image={resolvedImages[0]}
+            >
+              <i class='bx bx-cart-add'></i>
+              <span>Agregar al carrito</span>
+            </button>
+          </div>
+
+          <a href={waUrl} target="_blank" rel="noopener noreferrer" class="btn-wa-detail" id="btn-wa-order">
+            <i class='bx bxl-whatsapp'></i>
+            <span>Pedir directamente por WhatsApp</span>
+          </a>
+        </div>
+
+        <!-- Sellos de Confianza y Garantía -->
+        <div class="trust-perks-grid">
+          <div class="perk-item">
+            <i class='bx bx-package'></i>
+            <div>
+              <strong>Empaque para regalo</strong>
+              <span>Presentación lista para obsequiar</span>
+            </div>
+          </div>
+          <div class="perk-item">
+            <i class='bx bx-cycling'></i>
+            <div>
+              <strong>Envío rápido</strong>
+              <span>Coordinación directa y segura</span>
+            </div>
+          </div>
+          <div class="perk-item">
+            <i class='bx bx-shield-quarter'></i>
+            <div>
+              <strong>Garantía LOokiero!</strong>
+              <span>Productos verificados de calidad</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================
+         PRODUCTOS RELACIONADOS
+         ========================================== -->
+    {relatedProducts && relatedProducts.length > 0 && (
+      <section class="related-section">
+        <div class="section-heading">
+          <h2 class="related-title"><i class='bx bx-heart'></i> También te podría gustar</h2>
+          <p class="related-subtitle">Descubre más opciones de la categoría {product.category}</p>
+        </div>
+        <div class="products-grid">
+          {relatedProducts.map((rel) => (
+            <ProductCard
+              id={rel.id}
+              title={rel.title}
+              price={rel.price}
+              image={rel.images[0]}
+              rating={rel.rating}
+              promo={rel.promo}
+              category={rel.subcategory}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</Layout>
+
+<script>
+  // ==========================================
+  // LÓGICA DE GALERÍA INTERACTIVA DE FOTOS
+  // ==========================================
+  const mainPhoto = document.getElementById('main-photo') as HTMLImageElement;
+  const counterEl = document.getElementById('current-photo-num');
+  const thumbs = Array.from(document.querySelectorAll('.thumb-btn')) as HTMLButtonElement[];
+  const prevBtn = document.getElementById('arrow-prev');
+  const nextBtn = document.getElementById('arrow-next');
+
+  let currentIndex = 0;
+
+  function setPhoto(index: number) {
+    if (!mainPhoto || thumbs.length === 0) return;
+    
+    // Rango cíclico
+    if (index < 0) index = thumbs.length - 1;
+    if (index >= thumbs.length) index = 0;
+    
+    currentIndex = index;
+    const targetThumb = thumbs[currentIndex];
+    const newSrc = targetThumb.getAttribute('data-src') || '';
+
+    // Efecto de transición suave
+    mainPhoto.style.opacity = '0.3';
+    mainPhoto.style.transform = 'scale(0.98)';
+    
+    setTimeout(() => {
+      mainPhoto.src = newSrc;
+      mainPhoto.style.opacity = '1';
+      mainPhoto.style.transform = 'scale(1)';
+    }, 120);
+
+    // Actualizar clase activa en miniaturas
+    thumbs.forEach((th, i) => {
+      if (i === currentIndex) {
+        th.classList.add('active');
+        th.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      } else {
+        th.classList.remove('active');
+      }
+    });
+
+    if (counterEl) {
+      counterEl.textContent = (currentIndex + 1).toString();
+    }
+  }
+
+  thumbs.forEach((thumb, idx) => {
+    thumb.addEventListener('click', () => setPhoto(idx));
+  });
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => setPhoto(currentIndex - 1));
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => setPhoto(currentIndex + 1));
+  }
+
+  // ==========================================
+  // SELECTOR DE CANTIDAD Y CARRITO
+  // ==========================================
+  const minusBtn = document.getElementById('qty-minus');
+  const plusBtn = document.getElementById('qty-plus');
+  const qtyInput = document.getElementById('qty-input') as HTMLInputElement;
+  const addCartBtn = document.getElementById('btn-add-to-cart') as HTMLButtonElement;
+  const waBtn = document.getElementById('btn-wa-order') as HTMLAnchorElement;
+
+  function getQty(): number {
+    return parseInt(qtyInput ? qtyInput.value : '1', 10) || 1;
+  }
+
+  function updateQty(val: number) {
+    if (!qtyInput) return;
+    const cleanVal = Math.max(1, Math.min(99, val));
+    qtyInput.value = cleanVal.toString();
+
+    // Actualizar mensaje de WhatsApp dinámicamente con la cantidad
+    if (waBtn && addCartBtn) {
+      const title = addCartBtn.getAttribute('data-title') || '';
+      const price = addCartBtn.getAttribute('data-price') || '';
+      const newText = encodeURIComponent(
+        `👋 ¡Hola LOokiero! Me interesa comprar ${cleanVal} unidad(es) de: *${title}* (${price} c/u). ¿Tienen disponibilidad para envío?`
+      );
+      waBtn.href = `https://wa.me/51927123997?text=${newText}`;
+    }
+  }
+
+  if (minusBtn) {
+    minusBtn.addEventListener('click', () => updateQty(getQty() - 1));
+  }
+  if (plusBtn) {
+    plusBtn.addEventListener('click', () => updateQty(getQty() + 1));
+  }
+
+  if (addCartBtn) {
+    addCartBtn.addEventListener('click', () => {
+      const title = addCartBtn.getAttribute('data-title') || '';
+      const price = addCartBtn.getAttribute('data-price') || '';
+      const image = addCartBtn.getAttribute('data-image') || '';
+      const quantityToAdd = getQty();
+
+      try {
+        const cart = JSON.parse(localStorage.getItem('lookiero_cart') || '[]');
+        const existingIndex = cart.findIndex((item: any) => item.title === title);
+
+        if (existingIndex > -1) {
+          cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + quantityToAdd;
+        } else {
+          cart.push({ title, price, image, quantity: quantityToAdd });
+        }
+
+        localStorage.setItem('lookiero_cart', JSON.stringify(cart));
+        window.dispatchEvent(new Event('cart-updated'));
+
+        // Feedback visual en el botón
+        const originalText = addCartBtn.innerHTML;
+        addCartBtn.innerHTML = `<i class='bx bx-check'></i> ¡Agregado!`;
+        addCartBtn.style.background = '#16a34a';
+
+        // Disparar toast
+        const toastContainer = document.getElementById('toast-container');
+        if (toastContainer) {
+          const toast = document.createElement('div');
+          toast.className = 'custom-toast';
+          toast.innerHTML = `<i class='bx bx-check-circle'></i> ¡${quantityToAdd}x "${title}" agregado al carrito! 🎉`;
+          toastContainer.appendChild(toast);
+          setTimeout(() => {
+            toast.classList.add('fade-out');
+            setTimeout(() => toast.remove(), 400);
+          }, 2800);
+        }
+
+        setTimeout(() => {
+          addCartBtn.innerHTML = originalText;
+          addCartBtn.style.background = '';
+        }, 1600);
+
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  }
+</script>
+
+<style>
+  .product-detail-container {
+    padding: 10px 0 60px 0;
+  }
+
+  .product-detail-grid {
+    display: grid;
+    grid-template-columns: 460px 1fr;
+    gap: 45px;
+    align-items: start;
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 35px;
+    border: 1px solid rgba(223, 120, 97, 0.16);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  }
+
+  /* ==========================================
+     GALERÍA DE FOTOS
+     ========================================== */
+  .gallery-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: sticky;
+    top: 90px;
+  }
+
+  .main-image-viewport {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #fff8f6;
+    border: 1px solid rgba(223, 120, 97, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  }
+
+  .main-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.2s ease, transform 0.25s ease;
+    display: block;
+  }
+
+  .detail-promo-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: #ef4444;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 800;
+    padding: 5px 12px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    z-index: 3;
+  }
+
+  .photo-counter-badge {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    background: rgba(45, 24, 16, 0.75);
+    backdrop-filter: blur(6px);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    z-index: 3;
+  }
+
+  .gallery-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #3e1908;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s ease;
+    z-index: 3;
+  }
+  .gallery-arrow:hover {
+    background: #DF7861;
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+  }
+  .gallery-arrow.prev { left: 14px; }
+  .gallery-arrow.next { right: 14px; }
+
+  /* Miniaturas */
+  .thumbnails-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .thumbnails-track {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 4px 2px;
+    scrollbar-width: thin;
+  }
+
+  .thumb-btn {
+    width: 76px;
+    height: 76px;
+    min-width: 76px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff8f6;
+    border: 2px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .thumb-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .thumb-btn:hover {
+    border-color: rgba(223, 120, 97, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .thumb-btn.active {
+    border-color: #DF7861;
+    box-shadow: 0 4px 14px rgba(223, 120, 97, 0.35);
+    transform: scale(1.04);
+  }
+
+  .gallery-hint {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 2px;
+  }
+  .gallery-hint i {
+    color: #DF7861;
+  }
+
+  /* ==========================================
+     INFORMACIÓN DEL PRODUCTO
+     ========================================== */
+  .info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .category-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .category-tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #fdf2ef;
+    color: #DF7861;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(223, 120, 97, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .rating-box {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .stars {
+    color: #f59e0b;
+    font-size: 1rem;
+    letter-spacing: 1px;
+  }
+  .reviews-count {
+    font-size: 0.8rem;
+    color: #64748b;
+  }
+
+  .detail-title {
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: #3e1908;
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  .price-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #f1f5f9;
+  }
+
+  .current-price {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #DF7861;
+  }
+
+  .original-price {
+    font-size: 1.25rem;
+    color: #94a3b8;
+    text-decoration: line-through;
+    font-weight: 500;
+  }
+
+  .stock-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f0fdf4;
+    color: #16a34a;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(22, 163, 74, 0.2);
+  }
+
+  .detail-description {
+    font-size: 1.02rem;
+    line-height: 1.65;
+    color: #475569;
+    margin: 0;
+  }
+
+  /* Tarjeta de Características */
+  .features-card {
+    background: #fafaf9;
+    border-radius: 16px;
+    padding: 18px 20px;
+    border: 1px solid #f1f5f9;
+  }
+
+  .features-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #3e1908;
+    margin: 0 0 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .features-title i {
+    color: #DF7861;
+    font-size: 1.15rem;
+  }
+
+  .features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .features-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #334155;
+    line-height: 1.4;
+  }
+
+  .features-list li i {
+    color: #16a34a;
+    font-size: 1.1rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  /* Caja de Compra */
+  .purchase-actions-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    background: #fff8f6;
+    border-radius: 20px;
+    border: 1px solid rgba(223, 120, 97, 0.2);
+  }
+
+  .qty-and-cart-row {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  /* Selector de cantidad */
+  .detail-qty-picker {
+    display: inline-flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid rgba(223, 120, 97, 0.3);
+    border-radius: 14px;
+    padding: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  }
+
+  .qty-picker-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: none;
+    background: #fdf2ef;
+    color: #3e1908;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .qty-picker-btn:hover {
+    background: #DF7861;
+    color: white;
+  }
+
+  #qty-input {
+    width: 45px;
+    border: none;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #3e1908;
+    background: transparent;
+  }
+  #qty-input::-webkit-outer-spin-button,
+  #qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .btn-add-detail {
+    flex-grow: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #DF7861;
+    color: white;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(223, 120, 97, 0.35);
+  }
+  .btn-add-detail:hover {
+    background: #3e1908;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(62, 25, 8, 0.25);
+  }
+  .btn-add-detail i {
+    font-size: 1.35rem;
+  }
+
+  .btn-wa-detail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #25d366;
+    color: white;
+    padding: 14px 22px;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
+  }
+  .btn-wa-detail:hover {
+    background: #1eb857;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(37, 211, 102, 0.4);
+  }
+  .btn-wa-detail i {
+    font-size: 1.4rem;
+  }
+
+  /* Sellos de Confianza */
+  .trust-perks-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 5px;
+  }
+
+  .perk-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: #fafaf9;
+    border-radius: 14px;
+    border: 1px solid #f1f5f9;
+  }
+  .perk-item i {
+    font-size: 1.6rem;
+    color: #DF7861;
+    flex-shrink: 0;
+  }
+  .perk-item strong {
+    display: block;
+    font-size: 0.84rem;
+    color: #2d1810;
+    line-height: 1.2;
+  }
+  .perk-item span {
+    font-size: 0.72rem;
+    color: #64748b;
+  }
+
+  /* ==========================================
+     SECCIÓN DE RELACIONADOS
+     ========================================== */
+  .related-section {
+    margin-top: 60px;
+  }
+
+  .section-heading {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .related-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #3e1908;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .related-title i {
+    color: #DF7861;
+  }
+
+  .related-subtitle {
+    color: #64748b;
+    font-size: 0.95rem;
+  }
+
+  /* ==========================================
+     ADAPTABILIDAD RESPONSIVE
+     ========================================== */
+  @media (max-width: 992px) {
+    .product-detail-grid {
+      grid-template-columns: 1fr;
+      padding: 24px;
+      gap: 30px;
+    }
+    .gallery-column {
+      position: static;
+    }
+    .main-image-viewport {
+      height: 380px;
+    }
+    .trust-perks-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 580px) {
+    .product-detail-grid {
+      padding: 16px;
+      border-radius: 20px;
+    }
+    .main-image-viewport {
+      height: 300px;
+      border-radius: 16px;
+    }
+    .thumb-btn {
+      width: 64px;
+      height: 64px;
+      min-width: 64px;
+    }
+    .detail-title {
+      font-size: 1.6rem;
+    }
+    .current-price {
+      font-size: 1.8rem;
+    }
+    .qty-and-cart-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .detail-qty-picker {
+      justify-content: center;
+    }
+  }
+</style>

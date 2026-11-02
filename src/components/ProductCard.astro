@@ -1,7 +1,9 @@
 ---
 import { getPath } from '../utils/paths';
+import { getProductByTitle } from '../data/products';
 
 interface Props {
+  id?: string;
   title: string;
   price: string;
   image: string;
@@ -10,22 +12,29 @@ interface Props {
   category?: string;
 }
 
-const { title, price, image, rating = "★★★★★", promo, category = "Accesorios" } = Astro.props;
+const { id, title, price, image, rating = "★★★★★", promo, category = "Accesorios" } = Astro.props;
+const productData = id ? undefined : getProductByTitle(title);
+const slug = id || (productData ? productData.id : title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''));
 const resolvedImage = getPath(image);
+const productUrl = getPath(`/producto/${slug}`);
 ---
 
 <div class="product-card" data-title={title} data-price={price} data-image={resolvedImage}>
-  <div class="img-wrapper">
-    <img src={resolvedImage} alt={title} loading="lazy" />
-    {promo && <span class="promo-badge">-{promo}</span>}
-    <span class="category-tag">{category}</span>
-  </div>
+  <a href={productUrl} class="card-image-link" title={`Ver detalle de ${title}`}>
+    <div class="img-wrapper">
+      <img src={resolvedImage} alt={title} loading="lazy" />
+      {promo && <span class="promo-badge">-{promo}</span>}
+      <span class="category-tag">{category}</span>
+    </div>
+  </a>
   <div class="product-info">
     <div class="rating-stars">{rating}</div>
-    <h3 class="product-title">{title}</h3>
+    <a href={productUrl} class="title-link">
+      <h3 class="product-title">{title}</h3>
+    </a>
     <div class="price-row">
       <span class="price-tag">{price}</span>
-      <button class="add-cart-btn" title="Agregar al carrito">
+      <button class="add-cart-btn" title="Agregar al carrito" aria-label="Agregar al carrito">
         <i class='bx bx-cart-add'></i>
       </button>
     </div>
@@ -49,6 +58,11 @@ const resolvedImage = getPath(image);
     box-shadow: 0 10px 25px rgba(223, 120, 97, 0.18);
   }
 
+  .card-image-link {
+    display: block;
+    text-decoration: none;
+  }
+
   .img-wrapper {
     position: relative;
     width: 100%;
@@ -62,6 +76,7 @@ const resolvedImage = getPath(image);
     height: 100%;
     object-fit: cover;
     transition: transform 0.4s ease;
+    display: block;
   }
 
   .product-card:hover .img-wrapper img {
@@ -79,19 +94,21 @@ const resolvedImage = getPath(image);
     padding: 3px 8px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+    z-index: 2;
   }
 
   .category-tag {
     position: absolute;
     bottom: 8px;
     left: 10px;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.88);
     backdrop-filter: blur(4px);
     color: #3e1908;
     font-size: 0.7rem;
     font-weight: 600;
-    padding: 2px 7px;
+    padding: 2px 8px;
     border-radius: 6px;
+    z-index: 2;
   }
 
   .product-info {
@@ -99,7 +116,6 @@ const resolvedImage = getPath(image);
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    justify-content: space-between;
   }
 
   .rating-stars {
@@ -109,16 +125,26 @@ const resolvedImage = getPath(image);
     margin-bottom: 4px;
   }
 
+  .title-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
   .product-title {
     font-size: 0.95rem;
     font-weight: 600;
     color: #2d1810;
     margin-bottom: 10px;
-    line-height: 1.3;
+    line-height: 1.35;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    transition: color 0.2s ease;
+  }
+
+  .title-link:hover .product-title {
+    color: #DF7861;
   }
 
   .price-row {
@@ -138,15 +164,17 @@ const resolvedImage = getPath(image);
     background: #ca7c62;
     color: white;
     border: none;
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     transition: all 0.2s ease;
+    z-index: 3;
+    position: relative;
   }
 
   .add-cart-btn:hover {

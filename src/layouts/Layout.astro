@@ -36,6 +36,8 @@ const { title, description = "LOokiero! Tienda de regalos y accesorios" } = Astr
         const target = e.target as HTMLElement;
         const addBtn = target.closest('.add-cart-btn') as HTMLElement;
         if (!addBtn) return;
+        e.preventDefault();
+        e.stopPropagation();
 
         const card = addBtn.closest('.product-card') as HTMLElement;
         if (!card) return;
