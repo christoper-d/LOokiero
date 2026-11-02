@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getPath } from '../utils/paths';
 ---
 
 <Layout title="Mi Carrito de Compras | LOokiero!">
@@ -14,7 +15,7 @@ import Layout from '../layouts/Layout.astro';
       <div class="empty-icon"><i class='bx bx-cart'></i></div>
       <h2>Tu carrito está vacío</h2>
       <p>¿Aún no te decides? Descubre nuestras novedades y regalos especiales.</p>
-      <a href="/" class="btn-lookiero">Ir a comprar</a>
+      <a href={getPath('/')} class="btn-lookiero">Ir a comprar</a>
     </div>
 
     <!-- Contenido del Carrito (Visible si hay productos) -->
@@ -51,7 +52,7 @@ import Layout from '../layouts/Layout.astro';
           <button id="checkout-whatsapp-btn" class="btn-whatsapp">
             <i class='bx bxl-whatsapp'></i> Pedir por WhatsApp
           </button>
-          <a href="/" class="continue-shopping">← Continuar viendo productos</a>
+          <a href={getPath('/')} class="continue-shopping">← Continuar viendo productos</a>
         </div>
       </div>
     </div>

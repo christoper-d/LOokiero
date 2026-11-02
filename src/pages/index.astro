@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
+import { getPath } from '../utils/paths';
 ---
 
 <Layout title="LOokiero! Tienda de Regalos y Accesorios">
@@ -13,7 +14,7 @@ import ProductCard from '../components/ProductCard.astro';
         <p class="hero-slogan">"No dejes de hacer felices a los que más quieres"</p>
         <div class="hero-buttons">
           <a href="#temporada" class="btn-lookiero">Ver novedades</a>
-          <a href="/hombres" class="btn-hero-outline">Explorar catálogo</a>
+          <a href={getPath('/hombres')} class="btn-hero-outline">Explorar catálogo</a>
         </div>
       </div>
     </div>
@@ -162,17 +163,17 @@ import ProductCard from '../components/ProductCard.astro';
     <section class="categories-preview">
       <h2 class="section-title"><i class='bx bx-grid-alt'></i> Categorías</h2>
       <div class="category-cards-grid">
-        <a href="/hombres" class="cat-card">
+        <a href={getPath('/hombres')} class="cat-card">
           <i class='bx bx-male'></i>
           <h3>Hombres</h3>
           <p>Relojes, billeteras y accesorios</p>
         </a>
-        <a href="/mujeres" class="cat-card">
+        <a href={getPath('/mujeres')} class="cat-card">
           <i class='bx bx-female'></i>
           <h3>Mujeres</h3>
           <p>Joyería, pulseras y anillos</p>
         </a>
-        <a href="/ninhos" class="cat-card">
+        <a href={getPath('/ninhos')} class="cat-card">
           <i class='bx bx-smile'></i>
           <h3>Niños</h3>
           <p>Peluches y juguetes didácticos</p>

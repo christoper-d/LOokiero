@@ -1,10 +1,11 @@
 ---
+import { getPath } from '../utils/paths';
 ---
 
 <footer class="footer-wrapper">
   <div class="site-container footer-content">
     <div class="footer-col brand-col">
-      <a href="/" class="logo">
+      <a href={getPath('/')} class="logo">
         LOo<span>Kiero!</span>
       </a>
       <p class="slogan">"No dejes de hacer felices a los que quieres"</p>
@@ -19,12 +20,12 @@
     <div class="footer-col links-col">
       <h4>Navegación</h4>
       <ul>
-        <li><a href="/">Inicio</a></li>
-        <li><a href="/hombres">Hombres</a></li>
-        <li><a href="/mujeres">Mujeres</a></li>
-        <li><a href="/ninhos">Niños</a></li>
-        <li><a href="/sobre-nosotros">Sobre nosotros</a></li>
-        <li><a href="/sobre-nosotros#tyc">Términos y Condiciones</a></li>
+        <li><a href={getPath('/')}>Inicio</a></li>
+        <li><a href={getPath('/hombres')}>Hombres</a></li>
+        <li><a href={getPath('/mujeres')}>Mujeres</a></li>
+        <li><a href={getPath('/ninhos')}>Niños</a></li>
+        <li><a href={getPath('/sobre-nosotros')}>Sobre nosotros</a></li>
+        <li><a href={getPath('/sobre-nosotros#tyc')}>Términos y Condiciones</a></li>
       </ul>
     </div>
 

@@ -1,4 +1,6 @@
 ---
+import { getPath } from '../utils/paths';
+
 interface Props {
   title: string;
   price: string;
@@ -9,11 +11,12 @@ interface Props {
 }
 
 const { title, price, image, rating = "★★★★★", promo, category = "Accesorios" } = Astro.props;
+const resolvedImage = getPath(image);
 ---
 
-<div class="product-card" data-title={title} data-price={price} data-image={image}>
+<div class="product-card" data-title={title} data-price={price} data-image={resolvedImage}>
   <div class="img-wrapper">
-    <img src={image} alt={title} loading="lazy" />
+    <img src={resolvedImage} alt={title} loading="lazy" />
     {promo && <span class="promo-badge">-{promo}</span>}
     <span class="category-tag">{category}</span>
   </div>

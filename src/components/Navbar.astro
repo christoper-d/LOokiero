@@ -1,27 +1,28 @@
 ---
+import { getPath } from '../utils/paths';
 ---
 
 <header class="navbar-wrapper">
   <div class="site-container nav-container">
-    <a href="/" class="logo">
+    <a href={getPath('/')} class="logo">
       LOo<span>Kiero!</span>
     </a>
 
     <nav class="nav-links" id="nav-menu">
-      <a href="/" class="nav-item">Inicio</a>
+      <a href={getPath('/')} class="nav-item">Inicio</a>
       <div class="dropdown-wrapper">
         <span class="nav-item dropdown-toggle">Categorías <i class='bx bx-chevron-down'></i></span>
         <div class="dropdown-menu-custom">
-          <a href="/hombres"><i class='bx bx-male'></i> Hombres</a>
-          <a href="/mujeres"><i class='bx bx-female'></i> Mujeres</a>
-          <a href="/ninhos"><i class='bx bx-smile'></i> Niños</a>
+          <a href={getPath('/hombres')}><i class='bx bx-male'></i> Hombres</a>
+          <a href={getPath('/mujeres')}><i class='bx bx-female'></i> Mujeres</a>
+          <a href={getPath('/ninhos')}><i class='bx bx-smile'></i> Niños</a>
         </div>
       </div>
-      <a href="/sobre-nosotros" class="nav-item">Sobre nosotros</a>
+      <a href={getPath('/sobre-nosotros')} class="nav-item">Sobre nosotros</a>
     </nav>
 
     <div class="nav-actions">
-      <a href="/carrito" class="cart-btn" title="Ver carrito">
+      <a href={getPath('/carrito')} class="cart-btn" title="Ver carrito">
         <i class='bx bx-cart'></i>
         <span class="cart-counter" id="cart-counter">0</span>
       </a>
