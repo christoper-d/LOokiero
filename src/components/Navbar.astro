@@ -1,5 +1,16 @@
 ---
 import { getPath } from '../utils/paths';
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const homePath = getPath('/').replace(/\/$/, '') || '/';
+
+const isHome = pathname === homePath;
+const isHombres = pathname.includes('/hombres');
+const isMujeres = pathname.includes('/mujeres');
+const isNinhos = pathname.includes('/ninhos');
+const isCategorias = isHombres || isMujeres || isNinhos;
+const isSobreNosotros = pathname.includes('/sobre-nosotros');
+const isCarrito = pathname.includes('/carrito');
 ---
 
 <header class="navbar-wrapper">
@@ -8,57 +19,152 @@ import { getPath } from '../utils/paths';
       LOo<span>Kiero!</span>
     </a>
 
-    <nav class="nav-links" id="nav-menu">
-      <a href={getPath('/')} class="nav-item">Inicio</a>
+    <!-- Menú Escritorio -->
+    <nav class="nav-links">
+      <a href={getPath('/')} class:list={['nav-item', { active: isHome }]}>
+        Inicio
+      </a>
       <div class="dropdown-wrapper">
-        <span class="nav-item dropdown-toggle">Categorías <i class='bx bx-chevron-down'></i></span>
+        <span class:list={['nav-item', 'dropdown-toggle', { active: isCategorias }]}>
+          Categorías <i class='bx bx-chevron-down'></i>
+        </span>
         <div class="dropdown-menu-custom">
-          <a href={getPath('/hombres')}><i class='bx bx-male'></i> Hombres</a>
-          <a href={getPath('/mujeres')}><i class='bx bx-female'></i> Mujeres</a>
-          <a href={getPath('/ninhos')}><i class='bx bx-smile'></i> Niños</a>
+          <a href={getPath('/hombres')} class:list={[{ 'sub-active': isHombres }]}><i class='bx bx-male'></i> Hombres</a>
+          <a href={getPath('/mujeres')} class:list={[{ 'sub-active': isMujeres }]}><i class='bx bx-female'></i> Mujeres</a>
+          <a href={getPath('/ninhos')} class:list={[{ 'sub-active': isNinhos }]}><i class='bx bx-smile'></i> Niños</a>
         </div>
       </div>
-      <a href={getPath('/sobre-nosotros')} class="nav-item">Sobre nosotros</a>
+      <a href={getPath('/sobre-nosotros')} class:list={['nav-item', { active: isSobreNosotros }]}>
+        Sobre nosotros
+      </a>
     </nav>
 
     <div class="nav-actions">
-      <a href={getPath('/carrito')} class="cart-btn" title="Ver carrito">
+      <a href={getPath('/carrito')} class:list={['cart-btn', { active: isCarrito }]} title="Ver carrito">
         <i class='bx bx-cart'></i>
         <span class="cart-counter" id="cart-counter">0</span>
       </a>
-      <button class="menu-toggle-btn" id="mobile-toggle" aria-label="Abrir menú">
+      <button class="menu-toggle-btn" id="mobile-toggle" aria-label="Abrir menú lateral">
         <i class='bx bx-menu'></i>
       </button>
     </div>
   </div>
 </header>
 
-<script>
-  // Manejo del menú móvil y contador de carrito
-  const toggleBtn = document.getElementById('mobile-toggle');
-  const navMenu = document.getElementById('nav-menu');
+<!-- Menú Lateral (Drawer) para Móvil -->
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<aside class="mobile-drawer" id="mobile-drawer" aria-label="Menú lateral">
+  <div class="drawer-header">
+    <a href={getPath('/')} class="logo">
+      LOo<span>Kiero!</span>
+    </a>
+    <button class="drawer-close-btn" id="drawer-close" aria-label="Cerrar menú">
+      <i class='bx bx-x'></i>
+    </button>
+  </div>
 
-  if (toggleBtn && navMenu) {
-    toggleBtn.addEventListener('click', () => {
-      navMenu.classList.toggle('open');
-    });
+  <div class="drawer-demo-banner">
+    <span>✨ Menú Lateral Interactivo</span>
+  </div>
+
+  <nav class="drawer-nav">
+    <div class="drawer-section-label">Principal</div>
+    <a href={getPath('/')} class:list={['drawer-item', { active: isHome }]}>
+      <i class='bx bx-home-alt'></i>
+      <span>Inicio</span>
+      {isHome && <span class="active-dot"></span>}
+    </a>
+
+    <div class="drawer-section-label">Colecciones</div>
+    <a href={getPath('/hombres')} class:list={['drawer-item', { active: isHombres }]}>
+      <i class='bx bx-male'></i>
+      <span>Hombres</span>
+      <span class="drawer-badge">Relojes</span>
+    </a>
+    <a href={getPath('/mujeres')} class:list={['drawer-item', { active: isMujeres }]}>
+      <i class='bx bx-female'></i>
+      <span>Mujeres</span>
+      <span class="drawer-badge">Joyería</span>
+    </a>
+    <a href={getPath('/ninhos')} class:list={['drawer-item', { active: isNinhos }]}>
+      <i class='bx bx-smile'></i>
+      <span>Niños</span>
+      <span class="drawer-badge">Peluches</span>
+    </a>
+
+    <div class="drawer-section-label">General</div>
+    <a href={getPath('/sobre-nosotros')} class:list={['drawer-item', { active: isSobreNosotros }]}>
+      <i class='bx bx-info-circle'></i>
+      <span>Sobre nosotros</span>
+      {isSobreNosotros && <span class="active-dot"></span>}
+    </a>
+    <a href={getPath('/carrito')} class:list={['drawer-item', { active: isCarrito }]}>
+      <i class='bx bx-cart'></i>
+      <span>Mi Carrito</span>
+      <span class="drawer-cart-count" id="drawer-cart-counter">0</span>
+    </a>
+  </nav>
+
+  <div class="drawer-footer">
+    <p>¿Necesitas ayuda con un regalo?</p>
+    <a href="https://wa.me/51927123997" target="_blank" class="drawer-wa-btn">
+      <i class='bx bxl-whatsapp'></i> Contactar por WhatsApp
+    </a>
+  </div>
+</aside>
+
+<script>
+  // Control del Menú Lateral (Drawer)
+  const openBtn = document.getElementById('mobile-toggle');
+  const closeBtn = document.getElementById('drawer-close');
+  const overlay = document.getElementById('drawer-overlay');
+  const drawer = document.getElementById('mobile-drawer');
+
+  function openDrawer() {
+    if (drawer && overlay) {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
   }
 
-  // Actualizar contador del carrito desde localStorage
-  function updateCartCounter() {
+  function closeDrawer() {
+    if (drawer && overlay) {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  if (openBtn) openBtn.addEventListener('click', openDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (overlay) overlay.addEventListener('click', closeDrawer);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDrawer();
+  });
+
+  // Contador de Carrito en Navbar y Drawer
+  function updateCartCounters() {
     try {
       const cart = JSON.parse(localStorage.getItem('lookiero_cart') || '[]');
       const totalItems = cart.reduce((acc: number, item: any) => acc + (item.quantity || 1), 0);
-      const counterEl = document.getElementById('cart-counter');
-      if (counterEl) {
-        counterEl.textContent = totalItems.toString();
-        counterEl.style.display = totalItems > 0 ? 'flex' : 'none';
+
+      const navCounter = document.getElementById('cart-counter');
+      if (navCounter) {
+        navCounter.textContent = totalItems.toString();
+        navCounter.style.display = totalItems > 0 ? 'flex' : 'none';
+      }
+
+      const drawerCounter = document.getElementById('drawer-cart-counter');
+      if (drawerCounter) {
+        drawerCounter.textContent = totalItems.toString();
       }
     } catch (e) {}
   }
 
-  updateCartCounter();
-  window.addEventListener('cart-updated', updateCartCounter);
+  updateCartCounters();
+  window.addEventListener('cart-updated', updateCartCounters);
 </script>
 
 <style>
@@ -81,22 +187,47 @@ import { getPath } from '../utils/paths';
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 30px;
   }
 
+  /* Indicadores de página activa en escritorio */
   .nav-item {
     font-size: 0.95rem;
     font-weight: 500;
     color: #2d1810;
-    transition: color 0.25s ease;
+    transition: all 0.25s ease;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 4px;
+    position: relative;
+    padding: 6px 0;
   }
 
   .nav-item:hover {
     color: #DF7861;
+  }
+
+  .nav-item.active {
+    color: #DF7861;
+    font-weight: 700;
+  }
+
+  .nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #DF7861;
+    border-radius: 3px;
+    animation: expandLine 0.25s ease;
+  }
+
+  @keyframes expandLine {
+    from { width: 0; }
+    to { width: 100%; }
   }
 
   .dropdown-wrapper {
@@ -111,7 +242,7 @@ import { getPath } from '../utils/paths';
     background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    min-width: 170px;
+    min-width: 175px;
     padding: 8px 0;
     margin-top: 10px;
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -132,9 +263,11 @@ import { getPath } from '../utils/paths';
     transition: background 0.2s, color 0.2s;
   }
 
-  .dropdown-menu-custom a:hover {
+  .dropdown-menu-custom a:hover,
+  .dropdown-menu-custom a.sub-active {
     background: #fdf2ef;
     color: #DF7861;
+    font-weight: 600;
   }
 
   .nav-actions {
@@ -157,7 +290,8 @@ import { getPath } from '../utils/paths';
     transition: transform 0.2s, background 0.2s;
   }
 
-  .cart-btn:hover {
+  .cart-btn:hover,
+  .cart-btn.active {
     background: #3e1908;
     transform: scale(1.05);
   }
@@ -181,42 +315,205 @@ import { getPath } from '../utils/paths';
 
   .menu-toggle-btn {
     display: none;
-    background: none;
-    border: none;
-    font-size: 1.8rem;
-    color: #2d1810;
+    background: #fdf2ef;
+    color: #3e1908;
+    border: 1px solid rgba(223, 120, 97, 0.25);
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    font-size: 1.6rem;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    transition: all 0.2s;
+  }
+  .menu-toggle-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* ========================================================
+     Estilos del Menú Lateral (Drawer)
+     ======================================================== */
+  .drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .drawer-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 290px;
+    max-width: 82%;
+    height: 100%;
+    background: #ffffff;
+    z-index: 1001;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.15);
+    overflow-y: auto;
+  }
+
+  .mobile-drawer.open {
+    transform: translateX(0);
+  }
+
+  .drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 22px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .drawer-close-btn {
+    background: #f1f5f9;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 1.4rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .drawer-demo-banner {
+    background: #fdf2ef;
+    padding: 8px 22px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #DF7861;
+    border-bottom: 1px dashed rgba(223, 120, 97, 0.3);
+  }
+
+  .drawer-nav {
+    padding: 15px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-grow: 1;
+  }
+
+  .drawer-section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #94a3b8;
+    margin: 14px 10px 6px 10px;
+  }
+
+  .drawer-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    color: #2d1810;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  .drawer-item i {
+    font-size: 1.3rem;
+    color: #ca7c62;
+    transition: transform 0.2s;
+  }
+
+  .drawer-item:hover,
+  .drawer-item.active {
+    background: #fdf2ef;
+    color: #DF7861;
+    font-weight: 700;
+  }
+
+  .drawer-item.active i {
+    color: #DF7861;
+    transform: scale(1.1);
+  }
+
+  .active-dot {
+    width: 7px;
+    height: 7px;
+    background: #DF7861;
+    border-radius: 50%;
+    margin-left: auto;
+  }
+
+  .drawer-badge {
+    margin-left: auto;
+    background: #f1f5f9;
+    color: #64748b;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 6px;
+  }
+
+  .drawer-cart-count {
+    margin-left: auto;
+    background: #DF7861;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  .drawer-footer {
+    padding: 20px;
+    background: #fafaf9;
+    border-top: 1px solid #f1f5f9;
+  }
+
+  .drawer-footer p {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 10px;
+  }
+
+  .drawer-wa-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #25d366;
+    color: white;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.25);
   }
 
   @media (max-width: 768px) {
     .menu-toggle-btn {
-      display: block;
+      display: flex;
     }
-
     .nav-links {
       display: none;
-      position: absolute;
-      top: 70px;
-      left: 0;
-      width: 100%;
-      background: #ffffff;
-      flex-direction: column;
-      padding: 20px;
-      gap: 15px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-      border-top: 1px solid #f1f5f9;
-    }
-
-    .nav-links.open {
-      display: flex;
-    }
-
-    .dropdown-wrapper:hover .dropdown-menu-custom {
-      position: static;
-      display: flex;
-      box-shadow: none;
-      border: none;
-      padding-left: 15px;
     }
   }
 </style>

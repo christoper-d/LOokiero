@@ -1,9 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { getPath } from '../utils/paths';
 ---
 
 <Layout title="Mi Carrito de Compras | LOokiero!">
+  <Breadcrumbs items={[{ label: 'Mi Carrito', icon: 'bx bx-cart' }]} />
+
   <div class="site-container page-header">
     <h1 class="page-title"><i class='bx bx-shopping-bag'></i> Mi Carrito</h1>
     <p class="page-desc">Revisa tus productos seleccionados y confirma tu pedido.</p>
@@ -206,7 +209,7 @@ import { getPath } from '../utils/paths';
 
 <style>
   .page-header {
-    padding: 40px 0 20px 0;
+    padding: 30px 0 20px 0;
     text-align: center;
   }
   .page-title {
@@ -225,7 +228,7 @@ import { getPath } from '../utils/paths';
 
   .cart-container {
     max-width: 1000px;
-    margin: 20px auto 60px auto;
+    margin: 15px auto 60px auto;
   }
 
   /* Estado vacío */

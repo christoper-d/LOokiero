@@ -1,9 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 ---
 
 <Layout title="Colección Hombres | LOokiero!">
+  <Breadcrumbs items={[{ label: 'Categorías' }, { label: 'Hombres', icon: 'bx bx-male' }]} />
+
   <div class="site-container page-header">
     <span class="category-pill"><i class='bx bx-male'></i> Para Él</span>
     <h1 class="page-title">Colección Hombres</h1>
@@ -90,7 +93,7 @@ import ProductCard from '../components/ProductCard.astro';
 
 <style>
   .page-header {
-    padding: 40px 0 25px 0;
+    padding: 30px 0 20px 0;
     text-align: center;
   }
   .category-pill {

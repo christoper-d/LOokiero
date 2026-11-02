@@ -1,8 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 ---
 
 <Layout title="Sobre Nosotros | LOokiero!">
+  <Breadcrumbs items={[{ label: 'Sobre Nosotros', icon: 'bx bx-info-circle' }]} />
+
   <div class="site-container page-header">
     <span class="category-pill"><i class='bx bx-info-circle'></i> Nuestra Historia</span>
     <h1 class="page-title">Sobre LOokiero!</h1>
@@ -55,7 +58,7 @@ import Layout from '../layouts/Layout.astro';
 
 <style>
   .page-header {
-    padding: 50px 0 30px 0;
+    padding: 30px 0 20px 0;
     text-align: center;
   }
   .category-pill {
