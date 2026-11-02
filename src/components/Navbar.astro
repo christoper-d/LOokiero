@@ -28,10 +28,33 @@ const isCarrito = pathname.includes('/carrito');
         <span class:list={['nav-item', 'dropdown-toggle', { active: isCategorias }]}>
           Categorías <i class='bx bx-chevron-down'></i>
         </span>
-        <div class="dropdown-menu-custom">
-          <a href={getPath('/hombres')} class:list={[{ 'sub-active': isHombres }]}><i class='bx bx-male'></i> Hombres</a>
-          <a href={getPath('/mujeres')} class:list={[{ 'sub-active': isMujeres }]}><i class='bx bx-female'></i> Mujeres</a>
-          <a href={getPath('/ninhos')} class:list={[{ 'sub-active': isNinhos }]}><i class='bx bx-smile'></i> Niños</a>
+        <div class="dropdown-menu-custom mega-dropdown">
+          <div class="mega-col">
+            <a href={getPath('/hombres')} class="mega-title"><i class='bx bx-male'></i> Hombres</a>
+            <div class="mega-sub-links">
+              <a href={getPath('/hombres?subcat=relojes')}><i class='bx bx-chevron-right'></i> Relojes</a>
+              <a href={getPath('/hombres?subcat=billeteras')}><i class='bx bx-chevron-right'></i> Billeteras</a>
+              <a href={getPath('/hombres?subcat=collares')}><i class='bx bx-chevron-right'></i> Collares y Cadenas</a>
+              <a href={getPath('/hombres?subcat=pulseras')}><i class='bx bx-chevron-right'></i> Pulseras</a>
+            </div>
+          </div>
+          <div class="mega-col">
+            <a href={getPath('/mujeres')} class="mega-title"><i class='bx bx-female'></i> Mujeres</a>
+            <div class="mega-sub-links">
+              <a href={getPath('/mujeres?subcat=anillos')}><i class='bx bx-chevron-right'></i> Anillos</a>
+              <a href={getPath('/mujeres?subcat=aretes')}><i class='bx bx-chevron-right'></i> Aretes</a>
+              <a href={getPath('/mujeres?subcat=brazaletes')}><i class='bx bx-chevron-right'></i> Brazaletes</a>
+              <a href={getPath('/mujeres?subcat=collares')}><i class='bx bx-chevron-right'></i> Collares</a>
+            </div>
+          </div>
+          <div class="mega-col">
+            <a href={getPath('/ninhos')} class="mega-title"><i class='bx bx-smile'></i> Niños</a>
+            <div class="mega-sub-links">
+              <a href={getPath('/ninhos?subcat=peluches')}><i class='bx bx-chevron-right'></i> Peluches</a>
+              <a href={getPath('/ninhos?subcat=juguetes')}><i class='bx bx-chevron-right'></i> Juguetes</a>
+              <a href={getPath('/ninhos?subcat=educativo')}><i class='bx bx-chevron-right'></i> Educativo</a>
+            </div>
+          </div>
         </div>
       </div>
       <a href={getPath('/sobre-nosotros')} class:list={['nav-item', { active: isSobreNosotros }]}>
@@ -71,22 +94,66 @@ const isCarrito = pathname.includes('/carrito');
       {isHome && <span class="active-dot"></span>}
     </a>
 
-    <div class="drawer-section-label">Colecciones</div>
-    <a href={getPath('/hombres')} class:list={['drawer-item', { active: isHombres }]}>
-      <i class='bx bx-male'></i>
-      <span>Hombres</span>
-      <span class="drawer-badge">Relojes</span>
-    </a>
-    <a href={getPath('/mujeres')} class:list={['drawer-item', { active: isMujeres }]}>
-      <i class='bx bx-female'></i>
-      <span>Mujeres</span>
-      <span class="drawer-badge">Joyería</span>
-    </a>
-    <a href={getPath('/ninhos')} class:list={['drawer-item', { active: isNinhos }]}>
-      <i class='bx bx-smile'></i>
-      <span>Niños</span>
-      <span class="drawer-badge">Peluches</span>
-    </a>
+    <div class="drawer-section-label">Colecciones y Categorías</div>
+
+    <!-- Hombres con acordeón de subcategorías -->
+    <div class:list={['drawer-accordion', { open: isHombres }]}>
+      <div class="drawer-accordion-header">
+        <a href={getPath('/hombres')} class:list={['drawer-item', 'accordion-title-link', { active: isHombres }]}>
+          <i class='bx bx-male'></i>
+          <span>Hombres</span>
+        </a>
+        <button type="button" class="accordion-toggle-btn" aria-label="Desplegar subcategorías de Hombres">
+          <i class='bx bx-chevron-down'></i>
+        </button>
+      </div>
+      <div class="drawer-subcategories">
+        <a href={getPath('/hombres?subcat=relojes')} class="drawer-sub-item"><i class='bx bx-time-five'></i> Relojes</a>
+        <a href={getPath('/hombres?subcat=billeteras')} class="drawer-sub-item"><i class='bx bx-wallet'></i> Billeteras</a>
+        <a href={getPath('/hombres?subcat=collares')} class="drawer-sub-item"><i class='bx bx-purchase-tag'></i> Collares y Cadenas</a>
+        <a href={getPath('/hombres?subcat=pulseras')} class="drawer-sub-item"><i class='bx bx-circle'></i> Pulseras</a>
+        <a href={getPath('/hombres')} class="drawer-sub-item view-all"><i class='bx bx-grid-alt'></i> Ver todo Hombres</a>
+      </div>
+    </div>
+
+    <!-- Mujeres con acordeón de subcategorías -->
+    <div class:list={['drawer-accordion', { open: isMujeres }]}>
+      <div class="drawer-accordion-header">
+        <a href={getPath('/mujeres')} class:list={['drawer-item', 'accordion-title-link', { active: isMujeres }]}>
+          <i class='bx bx-female'></i>
+          <span>Mujeres</span>
+        </a>
+        <button type="button" class="accordion-toggle-btn" aria-label="Desplegar subcategorías de Mujeres">
+          <i class='bx bx-chevron-down'></i>
+        </button>
+      </div>
+      <div class="drawer-subcategories">
+        <a href={getPath('/mujeres?subcat=anillos')} class="drawer-sub-item"><i class='bx bx-circle'></i> Anillos</a>
+        <a href={getPath('/mujeres?subcat=aretes')} class="drawer-sub-item"><i class='bx bx-star'></i> Aretes</a>
+        <a href={getPath('/mujeres?subcat=brazaletes')} class="drawer-sub-item"><i class='bx bx-shield'></i> Brazaletes y Pulseras</a>
+        <a href={getPath('/mujeres?subcat=collares')} class="drawer-sub-item"><i class='bx bx-heart'></i> Collares</a>
+        <a href={getPath('/mujeres')} class="drawer-sub-item view-all"><i class='bx bx-grid-alt'></i> Ver todo Mujeres</a>
+      </div>
+    </div>
+
+    <!-- Niños con acordeón de subcategorías -->
+    <div class:list={['drawer-accordion', { open: isNinhos }]}>
+      <div class="drawer-accordion-header">
+        <a href={getPath('/ninhos')} class:list={['drawer-item', 'accordion-title-link', { active: isNinhos }]}>
+          <i class='bx bx-smile'></i>
+          <span>Niños</span>
+        </a>
+        <button type="button" class="accordion-toggle-btn" aria-label="Desplegar subcategorías de Niños">
+          <i class='bx bx-chevron-down'></i>
+        </button>
+      </div>
+      <div class="drawer-subcategories">
+        <a href={getPath('/ninhos?subcat=peluches')} class="drawer-sub-item"><i class='bx bxs-smile'></i> Peluches</a>
+        <a href={getPath('/ninhos?subcat=juguetes')} class="drawer-sub-item"><i class='bx bx-game'></i> Juguetes</a>
+        <a href={getPath('/ninhos?subcat=educativo')} class="drawer-sub-item"><i class='bx bx-book-open'></i> Educativo</a>
+        <a href={getPath('/ninhos')} class="drawer-sub-item view-all"><i class='bx bx-grid-alt'></i> Ver todo Niños</a>
+      </div>
+    </div>
 
     <div class="drawer-section-label">General</div>
     <a href={getPath('/sobre-nosotros')} class:list={['drawer-item', { active: isSobreNosotros }]}>
@@ -138,6 +205,18 @@ const isCarrito = pathname.includes('/carrito');
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeDrawer();
+  });
+
+  // Control de acordeones en el Drawer
+  document.querySelectorAll('.accordion-toggle-btn').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const accordion = btn.closest('.drawer-accordion');
+      if (accordion) {
+        accordion.classList.toggle('open');
+      }
+    });
   });
 
   // Contador de Carrito en Navbar y Drawer
@@ -226,44 +305,100 @@ const isCarrito = pathname.includes('/carrito');
     to { width: 100%; }
   }
 
+  /* Dropdown mega menú de Categorías en Escritorio */
   .dropdown-wrapper {
     position: relative;
   }
 
-  .dropdown-menu-custom {
+  .mega-dropdown {
     display: none;
     position: absolute;
     top: 100%;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    min-width: 175px;
-    padding: 8px 0;
+    border-radius: 18px;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
+    width: 520px;
+    padding: 22px;
     margin-top: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(223, 120, 97, 0.18);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    z-index: 105;
   }
 
-  .dropdown-wrapper:hover .dropdown-menu-custom {
+  .dropdown-wrapper:hover .mega-dropdown {
+    display: grid;
+    animation: fadeInDropdown 0.22s ease forwards;
+  }
+
+  @keyframes fadeInDropdown {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 8px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  .mega-col {
     display: flex;
     flex-direction: column;
+    gap: 8px;
   }
 
-  .dropdown-menu-custom a {
-    padding: 10px 18px;
-    font-size: 0.9rem;
-    color: #2d1810;
+  .mega-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #3e1908;
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: background 0.2s, color 0.2s;
+    gap: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #f1f5f9;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .mega-title i {
+    color: #DF7861;
+    font-size: 1.15rem;
+  }
+  .mega-title:hover {
+    color: #DF7861;
   }
 
-  .dropdown-menu-custom a:hover,
-  .dropdown-menu-custom a.sub-active {
+  .mega-sub-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .mega-sub-links a {
+    font-size: 0.85rem;
+    color: #64748b;
+    padding: 4px 6px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+  }
+  .mega-sub-links a i {
+    font-size: 0.9rem;
+    color: #ca7c62;
+    transition: transform 0.2s;
+  }
+  .mega-sub-links a:hover {
     background: #fdf2ef;
     color: #DF7861;
     font-weight: 600;
+  }
+  .mega-sub-links a:hover i {
+    transform: translateX(3px);
   }
 
   .nav-actions {
@@ -353,8 +488,8 @@ const isCarrito = pathname.includes('/carrito');
     position: fixed;
     top: 0;
     left: 0;
-    width: 290px;
-    max-width: 82%;
+    width: 310px;
+    max-width: 86%;
     height: 100%;
     background: #ffffff;
     z-index: 1001;
@@ -401,7 +536,7 @@ const isCarrito = pathname.includes('/carrito');
   }
 
   .drawer-section-label {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.8px;
@@ -413,7 +548,7 @@ const isCarrito = pathname.includes('/carrito');
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 14px;
+    padding: 11px 14px;
     border-radius: 12px;
     color: #2d1810;
     font-size: 0.95rem;
@@ -448,14 +583,100 @@ const isCarrito = pathname.includes('/carrito');
     margin-left: auto;
   }
 
-  .drawer-badge {
-    margin-left: auto;
+  /* Acordeón para colecciones en el Drawer */
+  .drawer-accordion {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: background 0.2s;
+  }
+
+  .drawer-accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .accordion-title-link {
+    flex-grow: 1;
+  }
+
+  .accordion-toggle-btn {
+    background: transparent;
+    border: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: #94a3b8;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-right: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .accordion-toggle-btn:hover {
     background: #f1f5f9;
+    color: #DF7861;
+  }
+
+  .drawer-accordion.open .accordion-toggle-btn i {
+    transform: rotate(180deg);
+    color: #DF7861;
+  }
+
+  /* Lista de subcategorías desplegables */
+  .drawer-subcategories {
+    display: none;
+    flex-direction: column;
+    padding: 4px 0 8px 38px;
+    gap: 3px;
+  }
+
+  .drawer-accordion.open .drawer-subcategories {
+    display: flex;
+    animation: fadeInSubcats 0.2s ease forwards;
+  }
+
+  @keyframes fadeInSubcats {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .drawer-sub-item {
+    padding: 8px 12px;
+    font-size: 0.88rem;
     color: #64748b;
-    font-size: 0.7rem;
+    text-decoration: none;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .drawer-sub-item i {
+    font-size: 1rem;
+    color: #ca7c62;
+  }
+  .drawer-sub-item:hover {
+    background: #fdf2ef;
+    color: #DF7861;
     font-weight: 600;
-    padding: 2px 7px;
-    border-radius: 6px;
+  }
+  .drawer-sub-item.view-all {
+    color: #DF7861;
+    font-weight: 700;
+    margin-top: 2px;
   }
 
   .drawer-cart-count {

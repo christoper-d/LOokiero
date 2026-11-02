@@ -36,7 +36,7 @@ const waUrl = `https://wa.me/51927123997?text=${waText}`;
   <Breadcrumbs
     items={[
       { label: product.category, href: categoryPath },
-      { label: product.subcategory },
+      { label: product.subcategory, href: `${categoryPath}?subcat=${encodeURIComponent(product.subcategory.toLowerCase())}` },
       { label: product.title }
     ]}
   />

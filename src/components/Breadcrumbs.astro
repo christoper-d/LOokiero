@@ -12,96 +12,310 @@ interface Props {
 }
 
 const { items = [] } = Astro.props;
+
+// Determinamos si colapsar niveles intermedios (cuando hay 3 o más elementos)
+const shouldCollapse = items.length >= 3;
+const hiddenItems = shouldCollapse ? items.slice(0, items.length - 2) : [];
+const visibleParent = shouldCollapse ? items[items.length - 2] : (items.length === 2 ? items[0] : null);
+const currentItem = items.length > 0 ? items[items.length - 1] : null;
 ---
 
 <nav class="site-container breadcrumbs-nav" aria-label="Ruta de navegación">
-  <ol class="breadcrumbs-list">
-    <li class="breadcrumb-item">
-      <a href={getPath('/')} class="breadcrumb-link home-link" title="Ir al inicio">
-        <i class='bx bx-home-alt'></i>
-        <span>Inicio</span>
-      </a>
-    </li>
-    {items.map((item, index) => {
-      const isLast = index === items.length - 1;
-      return (
-        <li class="breadcrumb-item">
-          <i class='bx bx-chevron-right breadcrumb-separator'></i>
-          {isLast || !item.href ? (
-            <span class="breadcrumb-current" aria-current="page">
-              {item.icon && <i class={item.icon}></i>}
-              <span>{item.label}</span>
-            </span>
-          ) : (
-            <a href={item.href} class="breadcrumb-link">
-              {item.icon && <i class={item.icon}></i>}
-              <span>{item.label}</span>
-            </a>
+  <div class:list={['breadcrumbs-pill', { 'has-collapse': shouldCollapse }]} id="breadcrumbs-container">
+    <ol class="breadcrumbs-list">
+      <!-- 1. Inicio siempre presente -->
+      <li class="breadcrumb-item home-item">
+        <a href={getPath('/')} class="breadcrumb-link home-link" title="Ir al inicio">
+          <i class='bx bx-home-alt'></i>
+          <span class="home-text">Inicio</span>
+        </a>
+      </li>
+
+      {items.length > 0 && <li class="breadcrumb-separator"><i class='bx bx-chevron-right'></i></li>}
+
+      {shouldCollapse ? (
+        <>
+          <!-- Botón de elipsis (...) para expandir niveles anteriores -->
+          <li class="breadcrumb-item ellipsis-item">
+            <button
+              type="button"
+              class="breadcrumb-ellipsis-btn"
+              id="bc-ellipsis-toggle"
+              title="Haz clic para ver niveles anteriores"
+              aria-label="Ver niveles anteriores"
+            >
+              <span>...</span>
+            </button>
+          </li>
+
+          <!-- Elementos ocultos por defecto que se expanden al tocar (...) -->
+          <div class="collapsed-items-wrapper" id="bc-collapsed-wrapper">
+            {hiddenItems.map((item) => (
+              <>
+                <li class="breadcrumb-item hidden-step">
+                  {item.href ? (
+                    <a href={item.href} class="breadcrumb-link">
+                      {item.icon && <i class={item.icon}></i>}
+                      <span>{item.label}</span>
+                    </a>
+                  ) : (
+                    <span class="breadcrumb-static">
+                      {item.icon && <i class={item.icon}></i>}
+                      <span>{item.label}</span>
+                    </span>
+                  )}
+                </li>
+                <li class="breadcrumb-separator hidden-step"><i class='bx bx-chevron-right'></i></li>
+              </>
+            ))}
+          </div>
+
+          <li class="breadcrumb-separator"><i class='bx bx-chevron-right'></i></li>
+
+          <!-- Subcategoría inmediata (visible) -->
+          {visibleParent && (
+            <li class="breadcrumb-item visible-parent-item">
+              {visibleParent.href ? (
+                <a href={visibleParent.href} class="breadcrumb-link">
+                  {visibleParent.icon && <i class={visibleParent.icon}></i>}
+                  <span>{visibleParent.label}</span>
+                </a>
+              ) : (
+                <span class="breadcrumb-static">
+                  {visibleParent.icon && <i class={visibleParent.icon}></i>}
+                  <span>{visibleParent.label}</span>
+                </span>
+              )}
+            </li>
           )}
-        </li>
-      );
-    })}
-  </ol>
+
+          <li class="breadcrumb-separator"><i class='bx bx-chevron-right'></i></li>
+
+          <!-- Producto actual (con truncado inteligente en una sola línea) -->
+          {currentItem && (
+            <li class="breadcrumb-item current-item">
+              <span class="breadcrumb-current" aria-current="page" title={currentItem.label}>
+                {currentItem.icon && <i class={currentItem.icon}></i>}
+                <span class="current-label">{currentItem.label}</span>
+              </span>
+            </li>
+          )}
+        </>
+      ) : (
+        /* Caso simple: 1 o 2 elementos sin necesidad de colapsar */
+        items.map((item, index) => {
+          const isLast = index === items.length - 1;
+          return (
+            <>
+              <li class="breadcrumb-item">
+                {isLast || !item.href ? (
+                  <span class="breadcrumb-current" aria-current="page" title={item.label}>
+                    {item.icon && <i class={item.icon}></i>}
+                    <span class="current-label">{item.label}</span>
+                  </span>
+                ) : (
+                  <a href={item.href} class="breadcrumb-link">
+                    {item.icon && <i class={item.icon}></i>}
+                    <span>{item.label}</span>
+                  </a>
+                )}
+              </li>
+              {!isLast && <li class="breadcrumb-separator"><i class='bx bx-chevron-right'></i></li>}
+            </>
+          );
+        })
+      )}
+    </ol>
+  </div>
 </nav>
+
+<script>
+  // Control interactivo para desplegar/contraer niveles anteriores (...)
+  const toggleBtn = document.getElementById('bc-ellipsis-toggle');
+  const container = document.getElementById('breadcrumbs-container');
+
+  if (toggleBtn && container) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isExpanded = container.classList.toggle('is-expanded');
+      toggleBtn.setAttribute('title', isExpanded ? 'Contraer ruta' : 'Ver niveles anteriores');
+    });
+  }
+</script>
 
 <style>
   .breadcrumbs-nav {
-    padding: 15px 0 5px 0;
+    padding: 14px 0 6px 0;
+  }
+
+  /* Píldora contenedora */
+  .breadcrumbs-pill {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 6px 14px;
+    border-radius: 50px;
+    border: 1px solid rgba(223, 120, 97, 0.18);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    transition: all 0.25s ease;
+  }
+
+  .breadcrumbs-pill::-webkit-scrollbar {
+    display: none;
   }
 
   .breadcrumbs-list {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 6px;
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(8px);
-    padding: 6px 16px;
-    border-radius: 50px;
-    border: 1px solid rgba(223, 120, 97, 0.15);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    white-space: nowrap;
   }
 
   .breadcrumb-item {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 6px;
-    font-size: 0.85rem;
+    font-size: 0.84rem;
+    flex-shrink: 0;
   }
 
   .breadcrumb-link {
     color: #64748b;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 4px;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
     font-weight: 500;
+    text-decoration: none;
   }
 
   .breadcrumb-link:hover {
     color: #DF7861;
   }
 
+  .home-link {
+    font-weight: 600;
+  }
   .home-link i {
-    font-size: 1rem;
+    font-size: 1.05rem;
     color: #DF7861;
   }
 
-  .breadcrumb-separator {
-    color: #ca7c62;
-    font-size: 1.05rem;
-    opacity: 0.7;
-  }
-
-  .breadcrumb-current {
-    color: #3e1908;
-    font-weight: 700;
-    display: flex;
+  .breadcrumb-static {
+    color: #64748b;
+    font-weight: 500;
+    display: inline-flex;
     align-items: center;
     gap: 4px;
   }
 
+  .breadcrumb-separator {
+    color: #ca7c62;
+    font-size: 0.95rem;
+    opacity: 0.6;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  /* Botón de elipsis (...) interactivo */
+  .breadcrumb-ellipsis-btn {
+    background: #fdf2ef;
+    border: 1px solid rgba(223, 120, 97, 0.25);
+    color: #DF7861;
+    font-weight: 800;
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
+    padding: 1px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    height: 22px;
+  }
+
+  .breadcrumb-ellipsis-btn:hover {
+    background: #DF7861;
+    color: white;
+    transform: scale(1.08);
+    box-shadow: 0 2px 6px rgba(223, 120, 97, 0.3);
+  }
+
+  /* Contenedor colapsado de niveles intermedios */
+  .collapsed-items-wrapper {
+    display: none;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Al expandir, se muestran con animación suave */
+  .breadcrumbs-pill.is-expanded .collapsed-items-wrapper {
+    display: inline-flex;
+    animation: fadeInBc 0.25s ease forwards;
+  }
+
+  .breadcrumbs-pill.is-expanded .breadcrumb-ellipsis-btn {
+    background: #3e1908;
+    color: white;
+  }
+
+  @keyframes fadeInBc {
+    from {
+      opacity: 0;
+      transform: translateX(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Elemento actual (último) con truncado para evitar saltos de línea */
+  .breadcrumb-current {
+    color: #3e1908;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 240px;
+  }
+
+  .current-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
   .breadcrumb-current i {
     color: #DF7861;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+
+  /* Responsive para pantallas estrechas */
+  @media (max-width: 600px) {
+    .breadcrumbs-pill {
+      padding: 5px 12px;
+    }
+    .home-text {
+      display: none;
+    }
+    .breadcrumb-current {
+      max-width: 150px;
+    }
+    .breadcrumb-item {
+      font-size: 0.8rem;
+    }
   }
 </style>

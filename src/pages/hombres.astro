@@ -2,10 +2,19 @@
 import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { getProductsByCategory } from '../data/products';
+
+const products = getProductsByCategory('Hombres');
+const subcategories = ['Todos', ...new Set(products.map((p) => p.subcategory))];
 ---
 
 <Layout title="Colección Hombres | LOokiero!">
-  <Breadcrumbs items={[{ label: 'Categorías' }, { label: 'Hombres', icon: 'bx bx-male' }]} />
+  <Breadcrumbs
+    items={[
+      { label: 'Colecciones' },
+      { label: 'Hombres', icon: 'bx bx-male' }
+    ]}
+  />
 
   <div class="site-container page-header">
     <span class="category-pill"><i class='bx bx-male'></i> Para Él</span>
@@ -13,83 +22,107 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
     <p class="page-desc">Encuentra los mejores relojes, billeteras y accesorios de estilo masculino.</p>
   </div>
 
-  <div class="site-container">
-    <div class="products-grid">
-      <ProductCard
-        title="Reloj ejecutivo moderno"
-        price="S/ 25.00"
-        image="/img/products/hombre/producto1h.jpg"
-        rating="★★★★★"
-        category="Relojes"
-      />
-      <ProductCard
-        title="Collar dije de flecha"
-        price="S/ 15.00"
-        image="/img/products/hombre/producto2h.jpg"
-        rating="★★★★★"
-        promo="5%"
-        category="Collares"
-      />
-      <ProductCard
-        title="Billetera de cuero clásica"
-        price="S/ 50.00"
-        image="/img/products/hombre/producto3h.jpg"
-        rating="★★★★★"
-        category="Billeteras"
-      />
-      <ProductCard
-        title="Pulsera tribal tejida"
-        price="S/ 15.00"
-        image="/img/products/hombre/producto5h.jpg"
-        rating="★★★★☆"
-        promo="2%"
-        category="Pulseras"
-      />
-      <ProductCard
-        title="Cadena de eslabones plateada"
-        price="S/ 35.00"
-        image="/img/products/hombre/producto7.jpg"
-        rating="★★★★★"
-        category="Cadenas"
-      />
-      <ProductCard
-        title="Billetera compacta de bolsillo"
-        price="S/ 45.00"
-        image="/img/products/hombre/producto8.jpg"
-        rating="★★★★☆"
-        category="Billeteras"
-      />
-      <ProductCard
-        title="Reloj cronógrafo sport"
-        price="S/ 65.00"
-        image="/img/products/hombre/producto9h.jpg"
-        rating="★★★★★"
-        category="Relojes"
-      />
-      <ProductCard
-        title="Billetera vintage con broche"
-        price="S/ 40.00"
-        image="/img/products/hombre/producto10h.jpg"
-        rating="★★★★★"
-        category="Billeteras"
-      />
-      <ProductCard
-        title="Pulsera de acero inoxidable"
-        price="S/ 28.00"
-        image="/img/products/hombre/producto11h.jpg"
-        rating="★★★★☆"
-        category="Pulseras"
-      />
-      <ProductCard
-        title="Collar con placa militar"
-        price="S/ 22.00"
-        image="/img/products/hombre/producto12h.jpg"
-        rating="★★★★★"
-        category="Collares"
-      />
+  <!-- Barra de Filtros por Subcategoría -->
+  <div class="site-container filter-container">
+    <div class="subcat-filter-track" id="subcats-track">
+      {subcategories.map((subcat, idx) => (
+        <button
+          type="button"
+          class:list={['subcat-pill-btn', { active: idx === 0 }]}
+          data-subcat={subcat.toLowerCase()}
+        >
+          {subcat === 'Todos' ? (
+            <><i class='bx bx-grid-alt'></i> Todos ({products.length})</>
+          ) : (
+            <span>{subcat}</span>
+          )}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- Cuadrícula de Productos -->
+  <div class="site-container products-section">
+    <div class="products-grid" id="category-products-grid">
+      {products.map((product) => (
+        <div class="product-item-wrap" data-subcat={product.subcategory.toLowerCase()}>
+          <ProductCard
+            id={product.id}
+            title={product.title}
+            price={product.price}
+            image={product.images[0]}
+            rating={product.rating}
+            promo={product.promo}
+            category={product.subcategory}
+          />
+        </div>
+      ))}
+    </div>
+
+    <div id="no-products-msg" class="no-filter-results" style="display: none;">
+      <i class='bx bx-search'></i>
+      <h3>No encontramos productos en esta subcategoría</h3>
+      <p>Prueba seleccionando otra subcategoría o ver todos los productos.</p>
     </div>
   </div>
 </Layout>
+
+<script>
+  function setupCategoryFiltering() {
+    const pills = document.querySelectorAll('.subcat-pill-btn');
+    const items = document.querySelectorAll('.product-item-wrap');
+    const noResults = document.getElementById('no-products-msg');
+
+    function applyFilter(subcat: string, updateUrl = true) {
+      const cleanSub = subcat.trim().toLowerCase();
+      let visibleCount = 0;
+
+      pills.forEach((btn) => {
+        const btnSub = (btn.getAttribute('data-subcat') || '').toLowerCase();
+        if (btnSub === cleanSub || (cleanSub === '' && btnSub === 'todos')) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      items.forEach((item) => {
+        const itemSub = (item.getAttribute('data-subcat') || '').toLowerCase();
+        const matches = cleanSub === 'todos' || cleanSub === '' || itemSub === cleanSub;
+        (item as HTMLElement).style.display = matches ? 'block' : 'none';
+        if (matches) visibleCount++;
+      });
+
+      if (noResults) {
+        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+
+      if (updateUrl) {
+        const url = new URL(window.location.href);
+        if (cleanSub === 'todos' || cleanSub === '') {
+          url.searchParams.delete('subcat');
+        } else {
+          url.searchParams.set('subcat', cleanSub);
+        }
+        window.history.replaceState({}, '', url.toString());
+      }
+    }
+
+    pills.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const sub = btn.getAttribute('data-subcat') || 'todos';
+        applyFilter(sub);
+      });
+    });
+
+    // Leer parámetro URL inicial (ej. /hombres?subcat=relojes)
+    const params = new URLSearchParams(window.location.search);
+    const initialSub = params.get('subcat') || 'todos';
+    applyFilter(initialSub, false);
+  }
+
+  setupCategoryFiltering();
+</script>
 
 <style>
   .page-header {
@@ -119,5 +152,102 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
     font-size: 1rem;
     max-width: 600px;
     margin: 0 auto;
+  }
+
+  /* Filtro de Subcategorías */
+  .filter-container {
+    margin: 10px auto 25px auto;
+  }
+
+  .subcat-filter-track {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 6px 2px;
+    scrollbar-width: none;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .subcat-filter-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .subcat-pill-btn {
+    background: #ffffff;
+    border: 1px solid rgba(223, 120, 97, 0.22);
+    color: #475569;
+    padding: 7px 16px;
+    border-radius: 50px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    white-space: nowrap;
+  }
+
+  .subcat-pill-btn i {
+    font-size: 1rem;
+    color: #DF7861;
+  }
+
+  .subcat-pill-btn:hover {
+    background: #fdf2ef;
+    color: #DF7861;
+    border-color: #DF7861;
+    transform: translateY(-2px);
+  }
+
+  .subcat-pill-btn.active {
+    background: #DF7861;
+    color: white;
+    border-color: #DF7861;
+    box-shadow: 0 4px 14px rgba(223, 120, 97, 0.35);
+  }
+  .subcat-pill-btn.active i {
+    color: white;
+  }
+
+  .products-section {
+    padding-bottom: 60px;
+  }
+
+  .product-item-wrap {
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .no-filter-results {
+    background: white;
+    border-radius: 20px;
+    padding: 50px 20px;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 500px;
+    border: 1px solid rgba(223, 120, 97, 0.15);
+  }
+  .no-filter-results i {
+    font-size: 3rem;
+    color: #DF7861;
+    margin-bottom: 12px;
+  }
+  .no-filter-results h3 {
+    font-size: 1.25rem;
+    color: #3e1908;
+    margin-bottom: 6px;
+  }
+  .no-filter-results p {
+    color: #64748b;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .subcat-filter-track {
+      justify-content: flex-start;
+      flex-wrap: nowrap;
+    }
   }
 </style>
