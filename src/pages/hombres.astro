@@ -17,7 +17,6 @@ const subcategories = ['Todos', ...new Set(products.map((p) => p.subcategory))];
   />
 
   <div class="site-container page-header">
-    <span class="category-pill"><i class='bx bx-male'></i> Para Él</span>
     <h1 class="page-title">Colección Hombres</h1>
     <p class="page-desc">Encuentra los mejores relojes, billeteras y accesorios de estilo masculino.</p>
   </div>
@@ -126,37 +125,32 @@ const subcategories = ['Todos', ...new Set(products.map((p) => p.subcategory))];
 
 <style>
   .page-header {
-    padding: 30px 0 20px 0;
-    text-align: center;
-  }
-  .category-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #fdf2ef;
-    color: #DF7861;
-    font-size: 0.85rem;
-    font-weight: 600;
-    padding: 5px 14px;
-    border-radius: 20px;
-    margin-bottom: 12px;
+    padding: 24px 0 16px 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
   .page-title {
-    font-size: 2.4rem;
+    font-size: 2.3rem;
     font-weight: 800;
     color: #3e1908;
-    margin-bottom: 8px;
+    margin: 0 0 6px 0;
+    white-space: nowrap;
+    letter-spacing: -0.5px;
   }
   .page-desc {
     color: #64748b;
-    font-size: 1rem;
-    max-width: 600px;
-    margin: 0 auto;
+    font-size: 1.02rem;
+    max-width: 650px;
+    margin: 0;
+    text-align: left;
+    line-height: 1.5;
   }
 
   /* Filtro de Subcategorías */
   .filter-container {
-    margin: 10px auto 25px auto;
+    margin: 8px auto 25px auto;
   }
 
   .subcat-filter-track {
@@ -166,7 +160,7 @@ const subcategories = ['Todos', ...new Set(products.map((p) => p.subcategory))];
     overflow-x: auto;
     padding: 6px 2px;
     scrollbar-width: none;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
   }
   .subcat-filter-track::-webkit-scrollbar {
@@ -244,9 +238,14 @@ const subcategories = ['Todos', ...new Set(products.map((p) => p.subcategory))];
     font-size: 0.9rem;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 640px) {
+    .page-title {
+      font-size: 1.75rem;
+    }
+    .page-desc {
+      font-size: 0.92rem;
+    }
     .subcat-filter-track {
-      justify-content: flex-start;
       flex-wrap: nowrap;
     }
   }
