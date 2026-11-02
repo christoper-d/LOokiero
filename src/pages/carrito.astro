@@ -59,11 +59,11 @@ import { getPath } from '../utils/paths';
             </div>
             <div class="summary-row">
               <span class="row-label">Envío a domicilio</span>
-              <span id="shipping-val" class="row-val free-tag">¡Gratis! 🎉</span>
+              <span id="shipping-val" class="row-val free-tag">¡Gratis!</span>
             </div>
             <div class="summary-row">
               <span class="row-label">Empaque de regalo</span>
-              <span class="row-val included-tag">Incluido 🎁</span>
+              <span class="row-val included-tag">Incluido</span>
             </div>
           </div>
 
@@ -153,55 +153,54 @@ import { getPath } from '../utils/paths';
       itemCard.className = 'cart-item-card';
       itemCard.setAttribute('data-item-index', index.toString());
       itemCard.innerHTML = `
-        <div class="item-img-wrapper">
-          <img 
-            src="${resolvedImg}" 
-            alt="" 
-            loading="lazy" 
-            onerror="this.style.display='none'; const fb = this.nextElementSibling; if(fb) fb.style.display='flex';" 
-          />
-          <div class="img-fallback-icon" style="display: none;">
-            <i class='bx bx-gift'></i>
+        <!-- FILA 1: Imagen, Nombre, Precio y En stock -->
+        <div class="card-row-top">
+          <div class="item-img-wrapper">
+            <img 
+              src="${resolvedImg}" 
+              alt="" 
+              loading="lazy" 
+              onerror="this.style.display='none'; const fb = this.nextElementSibling; if(fb) fb.style.display='flex';" 
+            />
+            <div class="img-fallback-icon" style="display: none;">
+              <i class='bx bx-gift'></i>
+            </div>
+          </div>
+
+          <div class="item-info-inline">
+            <h4 class="item-title">${item.title}</h4>
+            <div class="item-price-stock-group">
+              <span class="item-unit-badge">
+                ${item.price} <small>c/u</small>
+              </span>
+              <span class="item-stock-tag">
+                <i class='bx bx-check-circle'></i> En stock
+              </span>
+            </div>
           </div>
         </div>
-        <div class="item-content">
-          <div class="item-top-row">
-            <div class="item-titles-group">
-              <h4 class="item-title">${item.title}</h4>
-              <div class="item-meta-tags">
-                <span class="item-unit-badge">
-                  <i class='bx bx-tag-alt'></i> ${item.price} <small>c/u</small>
-                </span>
-                <span class="item-stock-tag">
-                  <i class='bx bx-check-circle'></i> En stock
-                </span>
-              </div>
-            </div>
-            <button class="remove-item-btn desktop-trash" data-index="${index}" title="Eliminar producto" aria-label="Eliminar ${item.title}">
-              <i class='bx bx-trash'></i>
+
+        <!-- FILA 2: Cantidad, Subtotal y Botón Eliminar (ocupando todo el ancho) -->
+        <div class="card-row-bottom">
+          <div class="qty-selector">
+            <button class="qty-btn minus" data-action="decrease" data-index="${index}" title="Reducir cantidad" aria-label="Reducir cantidad">
+              <i class='bx bx-minus'></i>
+            </button>
+            <span class="qty-value">${quantity}</span>
+            <button class="qty-btn plus" data-action="increase" data-index="${index}" title="Aumentar cantidad" aria-label="Aumentar cantidad">
+              <i class='bx bx-plus'></i>
             </button>
           </div>
 
-          <div class="item-bottom-row">
-            <div class="qty-selector">
-              <button class="qty-btn minus" data-action="decrease" data-index="${index}" title="Reducir cantidad" aria-label="Reducir cantidad">
-                <i class='bx bx-minus'></i>
-              </button>
-              <span class="qty-value">${quantity}</span>
-              <button class="qty-btn plus" data-action="increase" data-index="${index}" title="Aumentar cantidad" aria-label="Aumentar cantidad">
-                <i class='bx bx-plus'></i>
-              </button>
-            </div>
-
-            <div class="item-subtotal-block">
-              <span class="subtotal-label">Subtotal</span>
-              <span class="subtotal-value">S/ ${itemTotal.toFixed(2)}</span>
-            </div>
-
-            <button class="remove-item-btn mobile-trash" data-index="${index}" title="Eliminar producto" aria-label="Eliminar ${item.title}">
-              <i class='bx bx-trash'></i>
-            </button>
+          <div class="item-subtotal-block">
+            <span class="subtotal-label">Subtotal</span>
+            <span class="subtotal-value">S/ ${itemTotal.toFixed(2)}</span>
           </div>
+
+          <button class="remove-item-btn" data-index="${index}" title="Eliminar producto" aria-label="Eliminar ${item.title}">
+            <i class='bx bx-trash'></i>
+            <span>Eliminar</span>
+          </button>
         </div>
       `;
       itemsList.appendChild(itemCard);
@@ -323,7 +322,7 @@ import { getPath } from '../utils/paths';
   window.addEventListener('cart-updated', renderCart);
 </script>
 
-<!-- Estilos globales para garantizar que los elementos generados dinámicamente reciban los estilos -->
+<!-- Estilos globales para que los elementos generados dinámicamente reciban los estilos -->
 <style is:global>
   .page-header {
     padding: 30px 0 20px 0;
@@ -476,10 +475,9 @@ import { getPath } from '../utils/paths';
   .cart-item-card {
     background: #ffffff !important;
     border-radius: 18px !important;
-    padding: 18px !important;
+    padding: 18px 20px !important;
     display: flex !important;
-    align-items: center !important;
-    gap: 20px !important;
+    flex-direction: column !important;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
     border: 1px solid rgba(223, 120, 97, 0.16) !important;
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
@@ -501,11 +499,21 @@ import { getPath } from '../utils/paths';
     pointer-events: none !important;
   }
 
+  /* --------------------------------------------------------
+     FILA 1: Imagen, Nombre, Precio y En stock (.card-row-top)
+     -------------------------------------------------------- */
+  .card-row-top {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    width: 100% !important;
+  }
+
   /* Contenedor de la Imagen */
   .item-img-wrapper {
-    width: 90px !important;
-    height: 90px !important;
-    min-width: 90px !important;
+    width: 72px !important;
+    height: 72px !important;
+    min-width: 72px !important;
     border-radius: 14px !important;
     overflow: hidden !important;
     background: #fdf6f4 !important;
@@ -536,28 +544,18 @@ import { getPath } from '../utils/paths';
     align-items: center;
     justify-content: center;
     color: #DF7861;
-    font-size: 2.2rem;
+    font-size: 2rem;
     background: #fdf2ef;
   }
 
-  /* Contenido y detalles */
-  .item-content {
-    flex-grow: 1 !important;
+  /* Información de Fila 1 (Nombre + Precio + Stock) */
+  .item-info-inline {
     display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    min-width: 0 !important;
-  }
-
-  .item-top-row {
-    display: flex !important;
-    align-items: flex-start !important;
+    align-items: center !important;
     justify-content: space-between !important;
-    gap: 12px !important;
-  }
-
-  .item-titles-group {
     flex-grow: 1 !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
     min-width: 0 !important;
   }
 
@@ -565,64 +563,63 @@ import { getPath } from '../utils/paths';
     font-size: 1.05rem !important;
     font-weight: 700 !important;
     color: #2d1810 !important;
-    margin: 0 0 6px 0 !important;
+    margin: 0 !important;
     line-height: 1.35 !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+    flex: 1 1 200px !important;
   }
 
-  .item-meta-tags {
+  .item-price-stock-group {
     display: flex !important;
     align-items: center !important;
-    flex-wrap: wrap !important;
     gap: 8px !important;
+    flex-shrink: 0 !important;
   }
 
   .item-unit-badge {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 4px !important;
-    font-size: 0.82rem !important;
+    font-size: 0.86rem !important;
     color: #64748b !important;
     background: #f8fafc !important;
-    padding: 3px 8px !important;
-    border-radius: 6px !important;
+    padding: 4px 10px !important;
+    border-radius: 8px !important;
     border: 1px solid #e2e8f0 !important;
-    font-weight: 600 !important;
-  }
-  .item-unit-badge i {
-    color: #ca7c62 !important;
-    font-size: 0.9rem !important;
+    font-weight: 700 !important;
   }
   .item-unit-badge small {
     color: #94a3b8 !important;
-    font-size: 0.72rem !important;
+    font-size: 0.74rem !important;
+    margin-left: 3px !important;
   }
 
   .item-stock-tag {
     display: inline-flex !important;
     align-items: center !important;
     gap: 4px !important;
-    font-size: 0.78rem !important;
+    font-size: 0.8rem !important;
     color: #16a34a !important;
     background: #f0fdf4 !important;
-    padding: 3px 8px !important;
-    border-radius: 6px !important;
+    padding: 4px 9px !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(22, 163, 74, 0.2) !important;
     font-weight: 600 !important;
   }
   .item-stock-tag i {
-    font-size: 0.85rem !important;
+    font-size: 0.9rem !important;
   }
 
-  /* Fila inferior de controles y subtotales */
-  .item-bottom-row {
+  /* --------------------------------------------------------
+     FILA 2: Cantidad, Subtotal y Botón Eliminar (.card-row-bottom)
+     -------------------------------------------------------- */
+  .card-row-bottom {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 14px !important;
-    padding-top: 8px !important;
-    border-top: 1px dashed #f1f5f9 !important;
+    width: 100% !important;
+    margin-top: 14px !important;
+    padding-top: 14px !important;
+    border-top: 1px dashed rgba(223, 120, 97, 0.2) !important;
+    gap: 16px !important;
   }
 
   /* Selector de cantidad moderno estilo píldora */
@@ -630,7 +627,7 @@ import { getPath } from '../utils/paths';
     display: inline-flex !important;
     align-items: center !important;
     background: #fcf6f4 !important;
-    border: 1px solid rgba(223, 120, 97, 0.22) !important;
+    border: 1px solid rgba(223, 120, 97, 0.24) !important;
     border-radius: 12px !important;
     padding: 3px !important;
     gap: 2px !important;
@@ -639,15 +636,15 @@ import { getPath } from '../utils/paths';
   .qty-btn {
     background: #ffffff !important;
     border: 1px solid rgba(0, 0, 0, 0.04) !important;
-    width: 30px !important;
-    height: 30px !important;
+    width: 32px !important;
+    height: 32px !important;
     border-radius: 9px !important;
     color: #3e1908 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     cursor: pointer !important;
-    font-size: 0.95rem !important;
+    font-size: 1rem !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
     padding: 0 !important;
@@ -664,9 +661,9 @@ import { getPath } from '../utils/paths';
   }
 
   .qty-value {
-    min-width: 34px !important;
+    min-width: 36px !important;
     text-align: center !important;
-    font-size: 0.92rem !important;
+    font-size: 0.95rem !important;
     font-weight: 700 !important;
     color: #3e1908 !important;
     display: inline-block !important;
@@ -676,7 +673,8 @@ import { getPath } from '../utils/paths';
   .item-subtotal-block {
     display: flex !important;
     flex-direction: column !important;
-    align-items: flex-end !important;
+    align-items: center !important;
+    text-align: center !important;
   }
 
   .subtotal-label {
@@ -688,45 +686,41 @@ import { getPath } from '../utils/paths';
   }
 
   .subtotal-value {
-    font-size: 1.15rem !important;
+    font-size: 1.18rem !important;
     font-weight: 800 !important;
     color: #DF7861 !important;
   }
 
-  /* Botón de eliminar (Trash) */
+  /* Botón de eliminar con texto y papelera */
   .remove-item-btn {
     background: #fef2f2 !important;
-    border: 1px solid rgba(239, 68, 68, 0.15) !important;
+    border: 1px solid rgba(239, 68, 68, 0.18) !important;
     color: #ef4444 !important;
-    width: 36px !important;
-    height: 36px !important;
-    border-radius: 10px !important;
-    display: flex !important;
+    padding: 8px 14px !important;
+    border-radius: 11px !important;
+    display: inline-flex !important;
     align-items: center !important;
-    justify-content: center !important;
+    gap: 6px !important;
     cursor: pointer !important;
-    font-size: 1.15rem !important;
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
     transition: all 0.2s ease !important;
     flex-shrink: 0 !important;
-    padding: 0 !important;
+  }
+
+  .remove-item-btn i {
+    font-size: 1.1rem !important;
   }
 
   .remove-item-btn:hover {
     background: #ef4444 !important;
     color: white !important;
-    transform: scale(1.08) !important;
+    transform: translateY(-1px) !important;
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25) !important;
   }
 
   .remove-item-btn:active {
-    transform: scale(0.92) !important;
-  }
-
-  .mobile-trash {
-    display: none !important;
-  }
-  .desktop-trash {
-    display: flex !important;
+    transform: scale(0.95) !important;
   }
 
   /* ========================================================
@@ -905,39 +899,26 @@ import { getPath } from '../utils/paths';
 
   @media (max-width: 540px) {
     .cart-item-card {
-      padding: 14px !important;
-      gap: 12px !important;
+      padding: 14px 16px !important;
+    }
+
+    .card-row-top {
       align-items: flex-start !important;
+      gap: 12px !important;
     }
 
     .item-img-wrapper {
-      width: 78px !important;
-      height: 78px !important;
-      min-width: 78px !important;
+      width: 64px !important;
+      height: 64px !important;
+      min-width: 64px !important;
       border-radius: 12px !important;
     }
 
-    .desktop-trash {
-      display: none !important;
-    }
-    .mobile-trash {
-      display: flex !important;
-      width: 32px !important;
-      height: 32px !important;
-      font-size: 1rem !important;
-    }
-
     .item-title {
-      font-size: 0.95rem !important;
-      white-space: normal !important;
-      display: -webkit-box !important;
-      -webkit-line-clamp: 2 !important;
-      -webkit-box-orient: vertical !important;
-      overflow: hidden !important;
+      font-size: 0.96rem !important;
     }
 
-    .item-bottom-row {
-      flex-wrap: wrap !important;
+    .card-row-bottom {
       gap: 10px !important;
     }
 
@@ -952,6 +933,11 @@ import { getPath } from '../utils/paths';
 
     .subtotal-value {
       font-size: 1.05rem !important;
+    }
+
+    .remove-item-btn {
+      padding: 6px 10px !important;
+      font-size: 0.82rem !important;
     }
   }
 </style>
