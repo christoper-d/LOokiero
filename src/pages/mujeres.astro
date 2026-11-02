@@ -1,0 +1,134 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+---
+
+<Layout title="Colección Mujeres | LOokiero!">
+  <div class="site-container page-header">
+    <span class="category-pill"><i class='bx bx-female'></i> Para Ella</span>
+    <h1 class="page-title">Colección Mujeres</h1>
+    <p class="page-desc">Joyas exclusivas, aretes, anillos, pulseras y collares para realzar tu belleza.</p>
+  </div>
+
+  <div class="site-container">
+    <div class="products-grid">
+      <ProductCard
+        title="Anillo solitario plateado"
+        price="S/ 25.00"
+        image="/img/products/mujer/anillo-1.jpg"
+        rating="★★★★★"
+        category="Anillos"
+      />
+      <ProductCard
+        title="Anillo con grabado y cristal"
+        price="S/ 30.00"
+        image="/img/products/mujer/anillo-2.jpg"
+        rating="★★★★★"
+        category="Anillos"
+      />
+      <ProductCard
+        title="Aretes circulares modernos"
+        price="S/ 18.00"
+        image="/img/products/mujer/arete-1.jpg"
+        rating="★★★★☆"
+        category="Aretes"
+      />
+      <ProductCard
+        title="Aretes colgantes de perla"
+        price="S/ 22.00"
+        image="/img/products/mujer/arete-2.jpg"
+        rating="★★★★★"
+        category="Aretes"
+      />
+      <ProductCard
+        title="Aretes diseño floral de plata"
+        price="S/ 40.00"
+        image="/img/products/mujer/aretes.jpg"
+        rating="★★★★★"
+        promo="10%"
+        category="Aretes"
+      />
+      <ProductCard
+        title="Brazalete de plata brillante"
+        price="S/ 45.00"
+        image="/img/products/mujer/brazalete.png"
+        rating="★★★★★"
+        promo="15%"
+        category="Brazaletes"
+      />
+      <ProductCard
+        title="Collar gargantilla delicado"
+        price="S/ 35.00"
+        image="/img/products/mujer/collar.png"
+        rating="★★★★★"
+        category="Collares"
+      />
+      <ProductCard
+        title="Pulseras artesanales finas"
+        price="S/ 5.00"
+        image="/img/products/mujer/pulsera-1.png"
+        rating="★★★★★"
+        category="Pulseras"
+      />
+      <ProductCard
+        title="Pulsera doble cadena dorada"
+        price="S/ 28.00"
+        image="/img/products/mujer/pulsera-2.png"
+        rating="★★★★☆"
+        category="Pulseras"
+      />
+      <ProductCard
+        title="Collar con dije de corazón"
+        price="S/ 32.00"
+        image="/img/products/mujer/producto8m.jpg"
+        rating="★★★★★"
+        category="Collares"
+      />
+      <ProductCard
+        title="Aretes largos de fiesta"
+        price="S/ 26.00"
+        image="/img/products/mujer/producto9m.jpg"
+        rating="★★★★★"
+        category="Aretes"
+      />
+      <ProductCard
+        title="Pulsera con dije de mariposa"
+        price="S/ 24.00"
+        image="/img/products/mujer/producto10m.jpg"
+        rating="★★★★★"
+        category="Pulseras"
+      />
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .page-header {
+    padding: 40px 0 25px 0;
+    text-align: center;
+  }
+  .category-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fdf2ef;
+    color: #DF7861;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .page-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #3e1908;
+    margin-bottom: 8px;
+  }
+  .page-desc {
+    color: #64748b;
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+</style>

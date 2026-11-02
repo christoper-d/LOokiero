@@ -1,36 +1,131 @@
---- 
+---
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
 interface Props {
-	title: string;
+  title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description = "LOokiero! Tienda de regalos y accesorios" } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description">
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/png" href="/logo.png" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <Navbar />
+    <main class="main-content">
+      <slot />
+    </main>
+    <Footer />
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script>
+      // Sistema global de Carrito de Compras en localStorage
+      document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        const addBtn = target.closest('.add-cart-btn') as HTMLElement;
+        if (!addBtn) return;
+
+        const card = addBtn.closest('.product-card') as HTMLElement;
+        if (!card) return;
+
+        const title = card.getAttribute('data-title') || 'Producto';
+        const price = card.getAttribute('data-price') || 'S/0.0';
+        const image = card.getAttribute('data-image') || '';
+
+        try {
+          const cart = JSON.parse(localStorage.getItem('lookiero_cart') || '[]');
+          const existingIndex = cart.findIndex((item: any) => item.title === title);
+
+          if (existingIndex > -1) {
+            cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+          } else {
+            cart.push({ title, price, image, quantity: 1 });
+          }
+
+          localStorage.setItem('lookiero_cart', JSON.stringify(cart));
+          window.dispatchEvent(new Event('cart-updated'));
+          showToast(`¡"${title}" agregado al carrito! 🎉`);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+
+      function showToast(message: string) {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        toast.className = 'custom-toast';
+        toast.innerHTML = `<i class='bx bx-check-circle'></i> ${message}`;
+        container.appendChild(toast);
+
+        setTimeout(() => {
+          toast.classList.add('fade-out');
+          setTimeout(() => toast.remove(), 400);
+        }, 2200);
+      }
+    </script>
+
+    <style is:global>
+      .main-content {
+        flex-grow: 1;
+        padding-bottom: 50px;
+      }
+
+      .toast-container {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        pointer-events: none;
+      }
+
+      .custom-toast {
+        background: #2d1810;
+        color: #fff;
+        padding: 12px 20px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        border-left: 4px solid #22c55e;
+        animation: slideIn 0.3s ease;
+      }
+
+      .custom-toast.fade-out {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </body>
 </html>
-<style is:global>
-	:root {
-		--accent: 124, 58, 237;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background-color: #F6F6F6;
-	}
-	code {
-		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
-	}
-</style>

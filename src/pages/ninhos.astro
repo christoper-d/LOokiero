@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+---
+
+<Layout title="Colección Niños | LOokiero!">
+  <div class="site-container page-header">
+    <span class="category-pill"><i class='bx bx-smile'></i> Para los Pequeños</span>
+    <h1 class="page-title">Colección Niños</h1>
+    <p class="page-desc">Peluches tiernos, juguetes didácticos y sets educativos para alegrar su día.</p>
+  </div>
+
+  <div class="site-container">
+    <div class="products-grid">
+      <ProductCard
+        title="Peluche Pablo Backyardigan"
+        price="S/ 25.00"
+        image="/img/products/ninhos/producto1n.jpg"
+        rating="★★★★★"
+        category="Peluches"
+      />
+      <ProductCard
+        title="Peluche amigo gigante suave"
+        price="S/ 45.00"
+        image="/img/products/ninhos/producto2n.jpg"
+        rating="★★★★★"
+        category="Peluches"
+      />
+      <ProductCard
+        title="Muñeco interactivo divertido"
+        price="S/ 35.00"
+        image="/img/products/ninhos/producto4n.jpg"
+        rating="★★★★☆"
+        category="Juguetes"
+      />
+      <ProductCard
+        title="Peluche tierno de apego"
+        price="S/ 20.00"
+        image="/img/products/ninhos/producto5n.jpg"
+        rating="★★★★★"
+        category="Peluches"
+      />
+      <ProductCard
+        title="Set creativo de pinturas y arte"
+        price="S/ 20.00"
+        image="/img/products/ninhos/producto6n.jpg"
+        rating="★★★★★"
+        promo="5%"
+        category="Educativo"
+      />
+      <ProductCard
+        title="Peluche burro triste tierno"
+        price="S/ 25.00"
+        image="/img/products/ninhos/producto7n.jpg"
+        rating="★★★★★"
+        category="Peluches"
+      />
+      <ProductCard
+        title="Peluche león valiente"
+        price="S/ 28.00"
+        image="/img/products/ninhos/producto8n.jpg"
+        rating="★★★★☆"
+        category="Peluches"
+      />
+      <ProductCard
+        title="Juguete didáctico de destreza"
+        price="S/ 30.00"
+        image="/img/products/ninhos/producto9n.jpg"
+        rating="★★★★★"
+        category="Educativo"
+      />
+      <ProductCard
+        title="Muñeco de acción infantil"
+        price="S/ 22.00"
+        image="/img/products/ninhos/producto10n.jpg"
+        rating="★★★★☆"
+        category="Juguetes"
+      />
+      <ProductCard
+        title="Set de juegos didácticos preescolar"
+        price="S/ 38.00"
+        image="/img/products/ninhos/producto11n.jpg"
+        rating="★★★★★"
+        category="Educativo"
+      />
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .page-header {
+    padding: 40px 0 25px 0;
+    text-align: center;
+  }
+  .category-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fdf2ef;
+    color: #DF7861;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .page-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #3e1908;
+    margin-bottom: 8px;
+  }
+  .page-desc {
+    color: #64748b;
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+</style>

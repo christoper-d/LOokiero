@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://unpkg.com/boxicons@latest/css/boxicons.min.css');
+
+:root {
+  --primary: #3e1908;
+  --accent: #DF7861;
+  --accent-secondary: #ca7c62;
+  --bg-gradient: linear-gradient(180deg, #fcf8e8 0%, #d4e2d4 100%);
+  --card-bg: #ffffff;
+  --text-dark: #2d1810;
+  --text-muted: #64748b;
+  --font-main: 'Poppins', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  font-family: var(--font-main);
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+.site-container {
+  width: 92%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Logo */
+.logo {
+  color: var(--primary);
+  font-size: 1.8rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  text-decoration: none;
+}
+.logo span {
+  color: var(--accent);
+}
+
+/* Botones */
+.btn-lookiero {
+  display: inline-block;
+  padding: 10px 24px;
+  color: #fff;
+  background: var(--accent-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 20px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.btn-lookiero:hover {
+  background: transparent;
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.btn-dark-custom {
+  display: inline-block;
+  padding: 8px 18px;
+  color: #fff;
+  background: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 14px;
+  border: 1px solid var(--primary);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.btn-dark-custom:hover {
+  background: transparent;
+  color: var(--primary);
+}
+
+/* Grillas de productos responsive */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 20px;
+  margin: 25px 0 40px 0;
+}
+
+@media (max-width: 576px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+/* Secciones */
+.section-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+}

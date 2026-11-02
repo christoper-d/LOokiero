@@ -1,0 +1,149 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Sobre Nosotros | LOokiero!">
+  <div class="site-container page-header">
+    <span class="category-pill"><i class='bx bx-info-circle'></i> Nuestra Historia</span>
+    <h1 class="page-title">Sobre LOokiero!</h1>
+    <p class="page-desc">"No dejes de hacer felices a los que más quieres"</p>
+  </div>
+
+  <div class="site-container content-container">
+    <div class="about-card">
+      <div class="card-icon"><i class='bx bxs-heart'></i></div>
+      <h2>¿Quiénes Somos?</h2>
+      <p>
+        <strong>LOokiero!</strong> nació como una tienda online dedicada a acercar los mejores regalos, accesorios, joyería y detalles especiales para personas de todas las edades. Creemos firmemente en el poder de un detalle para iluminar el día de alguien especial.
+      </p>
+    </div>
+
+    <div class="grid-2-cols">
+      <div class="about-card">
+        <div class="card-icon"><i class='bx bxs-compass'></i></div>
+        <h2>Nuestra Misión</h2>
+        <p>
+          Brindar a nuestros clientes una experiencia de compra cálida, confiable y accesible, ofreciendo accesorios y artículos de calidad que transmitan emociones y creen recuerdos inolvidables.
+        </p>
+      </div>
+
+      <div class="about-card">
+        <div class="card-icon"><i class='bx bxs-rocket'></i></div>
+        <h2>Nuestra Visión</h2>
+        <p>
+          Convertirnos en la tienda de regalos y accesorios favorita de las familias y parejas de nuestra comunidad, destacándonos por la atención personalizada, rapidez y variedad constante de productos.
+        </p>
+      </div>
+    </div>
+
+    <div class="about-card" id="tyc">
+      <div class="card-icon"><i class='bx bxs-file-blank'></i></div>
+      <h2>Términos y Condiciones</h2>
+      <div class="terms-content">
+        <h4>1. Compras y Pedidos</h4>
+        <p>Todos los pedidos pueden coordinarse directamente a través de nuestro carrito web y finalizarse vía WhatsApp para coordinar el método de entrega y pago.</p>
+        
+        <h4>2. Envíos y Entregas</h4>
+        <p>Realizamos entregas locales y envíos a nivel nacional. Los tiempos de entrega estimados se confirman una vez confirmado el pedido.</p>
+
+        <h4>3. Garantía y Cambios</h4>
+        <p>Nos aseguramos de revisar cada producto antes de su despacho. En caso de defectos de fábrica, se realizarán cambios dentro de los primeros 7 días calendario.</p>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .page-header {
+    padding: 50px 0 30px 0;
+    text-align: center;
+  }
+  .category-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fdf2ef;
+    color: #DF7861;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .page-title {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: #3e1908;
+    margin-bottom: 8px;
+  }
+  .page-desc {
+    color: #64748b;
+    font-size: 1.1rem;
+    font-style: italic;
+  }
+
+  .content-container {
+    max-width: 900px;
+    margin: 20px auto 50px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .about-card {
+    background: white;
+    border-radius: 20px;
+    padding: 35px 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+  }
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    background: #fdf2ef;
+    color: #DF7861;
+    font-size: 1.8rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+
+  .about-card h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #3e1908;
+    margin-bottom: 15px;
+  }
+
+  .about-card p {
+    color: #475569;
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+
+  .grid-2-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+  }
+
+  .terms-content h4 {
+    font-size: 1.05rem;
+    color: #2d1810;
+    margin-top: 20px;
+    margin-bottom: 6px;
+  }
+  .terms-content p {
+    font-size: 0.95rem;
+    color: #64748b;
+  }
+
+  @media (max-width: 768px) {
+    .grid-2-cols {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

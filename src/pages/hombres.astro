@@ -1,0 +1,120 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+---
+
+<Layout title="Colección Hombres | LOokiero!">
+  <div class="site-container page-header">
+    <span class="category-pill"><i class='bx bx-male'></i> Para Él</span>
+    <h1 class="page-title">Colección Hombres</h1>
+    <p class="page-desc">Encuentra los mejores relojes, billeteras y accesorios de estilo masculino.</p>
+  </div>
+
+  <div class="site-container">
+    <div class="products-grid">
+      <ProductCard
+        title="Reloj ejecutivo moderno"
+        price="S/ 25.00"
+        image="/img/products/hombre/producto1h.jpg"
+        rating="★★★★★"
+        category="Relojes"
+      />
+      <ProductCard
+        title="Collar dije de flecha"
+        price="S/ 15.00"
+        image="/img/products/hombre/producto2h.jpg"
+        rating="★★★★★"
+        promo="5%"
+        category="Collares"
+      />
+      <ProductCard
+        title="Billetera de cuero clásica"
+        price="S/ 50.00"
+        image="/img/products/hombre/producto3h.jpg"
+        rating="★★★★★"
+        category="Billeteras"
+      />
+      <ProductCard
+        title="Pulsera tribal tejida"
+        price="S/ 15.00"
+        image="/img/products/hombre/producto5h.jpg"
+        rating="★★★★☆"
+        promo="2%"
+        category="Pulseras"
+      />
+      <ProductCard
+        title="Cadena de eslabones plateada"
+        price="S/ 35.00"
+        image="/img/products/hombre/producto7.jpg"
+        rating="★★★★★"
+        category="Cadenas"
+      />
+      <ProductCard
+        title="Billetera compacta de bolsillo"
+        price="S/ 45.00"
+        image="/img/products/hombre/producto8.jpg"
+        rating="★★★★☆"
+        category="Billeteras"
+      />
+      <ProductCard
+        title="Reloj cronógrafo sport"
+        price="S/ 65.00"
+        image="/img/products/hombre/producto9h.jpg"
+        rating="★★★★★"
+        category="Relojes"
+      />
+      <ProductCard
+        title="Billetera vintage con broche"
+        price="S/ 40.00"
+        image="/img/products/hombre/producto10h.jpg"
+        rating="★★★★★"
+        category="Billeteras"
+      />
+      <ProductCard
+        title="Pulsera de acero inoxidable"
+        price="S/ 28.00"
+        image="/img/products/hombre/producto11h.jpg"
+        rating="★★★★☆"
+        category="Pulseras"
+      />
+      <ProductCard
+        title="Collar con placa militar"
+        price="S/ 22.00"
+        image="/img/products/hombre/producto12h.jpg"
+        rating="★★★★★"
+        category="Collares"
+      />
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .page-header {
+    padding: 40px 0 25px 0;
+    text-align: center;
+  }
+  .category-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fdf2ef;
+    color: #DF7861;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .page-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #3e1908;
+    margin-bottom: 8px;
+  }
+  .page-desc {
+    color: #64748b;
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+</style>
