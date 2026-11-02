@@ -63,10 +63,6 @@ const isCarrito = pathname.includes('/carrito');
     </button>
   </div>
 
-  <div class="drawer-demo-banner">
-    <span>✨ Menú Lateral Interactivo</span>
-  </div>
-
   <nav class="drawer-nav">
     <div class="drawer-section-label">Principal</div>
     <a href={getPath('/')} class:list={['drawer-item', { active: isHome }]}>
@@ -394,15 +390,6 @@ const isCarrito = pathname.includes('/carrito');
     align-items: center;
     justify-content: center;
     cursor: pointer;
-  }
-
-  .drawer-demo-banner {
-    background: #fdf2ef;
-    padding: 8px 22px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #DF7861;
-    border-bottom: 1px dashed rgba(223, 120, 97, 0.3);
   }
 
   .drawer-nav {
